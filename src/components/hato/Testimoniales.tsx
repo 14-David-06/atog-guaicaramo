@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { HatoBtn, SectionTitle } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
@@ -104,6 +104,41 @@ export default function Testimoniales() {
   const cardWidthPct = 100 / perPage;
   const offsetPct = idx * cardWidthPct;
 
+  // Touch swipe
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const isHSwipe    = useRef<boolean | null>(null);
+  const [dragX, setDragX] = useState(0);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    isHSwipe.current    = null;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const dx = e.touches[0].clientX - touchStartX.current;
+    const dy = e.touches[0].clientY - touchStartY.current;
+    if (isHSwipe.current === null && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+      isHSwipe.current = Math.abs(dx) > Math.abs(dy);
+    }
+    if (isHSwipe.current) {
+      e.preventDefault();
+      setDragX(dx);
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (isHSwipe.current && Math.abs(dragX) > 40) {
+      dragX < 0 ? goNext() : goPrev();
+    }
+    setDragX(0);
+    touchStartX.current = null;
+    touchStartY.current = null;
+    isHSwipe.current    = null;
+  };
+
   return (
     <section style={{ background: "var(--g-verde-400)", padding: "80px 0" }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: secPad }}>
@@ -121,11 +156,16 @@ export default function Testimoniales() {
             <SideArrow dir="right" onClick={goNext} disabled={idx === maxIdx} label="Testimonial siguiente" sideOffset={arrowOffset} />
           )}
 
-          <div style={{ overflow: "hidden", marginLeft: -14, marginRight: -14 }}>
+          <div
+            style={{ overflow: "hidden", marginLeft: -14, marginRight: -14, touchAction: "pan-y" }}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <div style={{
               display: "flex",
-              transform: `translateX(-${offsetPct}%)`,
-              transition: "transform 520ms cubic-bezier(.4,.05,.2,1)",
+              transform: `translateX(calc(-${offsetPct}% + ${dragX}px))`,
+              transition: dragX !== 0 ? "none" : "transform 520ms cubic-bezier(.4,.05,.2,1)",
               willChange: "transform",
             }}>
               {items.map((it, i) => (

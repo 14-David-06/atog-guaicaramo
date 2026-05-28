@@ -93,32 +93,60 @@ function NutricionHero() {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    const restart = () => {
-      try {
-        v.currentTime = 0;
-        const p = v.play();
-        if (p && typeof p.catch === "function") p.catch(() => {});
-      } catch (_) {}
+
+    const tryPlay = () => {
+      const p = v.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
     };
-    const onVisibility = () => { if (!document.hidden) restart(); };
+
+    // canplay fires when the browser has buffered enough to start — most reliable on mobile
+    v.addEventListener("canplay", tryPlay);
+
+    // Low Power Mode / Data Saver fallback: play on first user interaction
+    const onInteraction = () => tryPlay();
+    document.addEventListener("touchstart", onInteraction, { once: true, passive: true });
+    document.addEventListener("click", onInteraction, { once: true, passive: true });
+
+    // Resume after tab switch or page restore
+    const onVisibility = () => { if (!document.hidden) tryPlay(); };
     document.addEventListener("visibilitychange", onVisibility);
-    window.addEventListener("pageshow", restart);
-    window.addEventListener("focus", restart);
+    window.addEventListener("pageshow", tryPlay);
+    window.addEventListener("focus", tryPlay);
+
     return () => {
+      v.removeEventListener("canplay", tryPlay);
+      document.removeEventListener("touchstart", onInteraction);
+      document.removeEventListener("click", onInteraction);
       document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("pageshow", restart);
-      window.removeEventListener("focus", restart);
+      window.removeEventListener("pageshow", tryPlay);
+      window.removeEventListener("focus", tryPlay);
     };
   }, []);
 
   return (
-    <section className="video-hero" style={{
-      position: "relative", width: "100%", height: "100vh",
+    <section className="nutricion-video-hero" style={{
+      position: "relative", width: "100%",
       overflow: "hidden", background: "#0d130f",
     }}>
+      {/* 100svh respeta la barra del navegador móvil; 100vh como fallback */}
+      <style>{`
+        .nutricion-video-hero {
+          height: 100vh;
+          height: 100svh;
+          min-height: 560px;
+        }
+        @keyframes g-scrollHint {
+          0%   { transform: scaleY(0); opacity: 0; }
+          40%  { transform: scaleY(1); opacity: 1; }
+          100% { transform: scaleY(1) translateY(20px); opacity: 0; }
+        }
+      `}</style>
+
       <video
         ref={videoRef}
-        autoPlay muted loop playsInline preload="auto"
+        autoPlay muted loop playsInline
+        disablePictureInPicture
+        preload="auto"
         poster="/assets/photography/bufalos-pastura-cordillera.jpg"
         style={{
           position: "absolute", inset: 0,
@@ -172,13 +200,6 @@ function NutricionHero() {
             animation: "g-scrollHint 2.2s ease-in-out infinite",
             transformOrigin: "top",
           }} />
-          <style>{`
-            @keyframes g-scrollHint {
-              0%   { transform: scaleY(0); opacity: 0; }
-              40%  { transform: scaleY(1); opacity: 1; }
-              100% { transform: scaleY(1) translateY(20px); opacity: 0; }
-            }
-          `}</style>
         </div>
       </div>
     </section>
@@ -870,7 +891,7 @@ function PastosBrachiaria() {
           gridTemplateColumns: isMobile ? "1fr" : "1.1fr 1fr",
           gap: isMobile ? 64 : 96,
           alignItems: "center",
-          paddingBottom: isMobile ? 60 : 120,
+          paddingBottom: isMobile ? 24 : 120,
         }}>
           <PastureRotation
             grazing={grazing} sectors={SECTORS}
@@ -912,6 +933,8 @@ function PastosBrachiaria() {
                 gap: 4,
                 borderTop: "1px solid rgba(249,246,232,0.12)",
                 borderLeft: "1px solid rgba(249,246,232,0.12)",
+                maxWidth: isMobile ? 340 : "100%",
+                marginInline: isMobile ? "auto" : undefined,
               }}>
                 {[
                   { k: "Rotación",     v: "Planificada" },
@@ -923,6 +946,7 @@ function PastosBrachiaria() {
                     padding: "20px 18px",
                     borderRight: "1px solid rgba(249,246,232,0.12)",
                     borderBottom: "1px solid rgba(249,246,232,0.12)",
+                    textAlign: isMobile ? "center" : "left",
                   }}>
                     <div style={{
                       fontFamily: "var(--g-font-sans)", fontSize: 10,
@@ -944,7 +968,7 @@ function PastosBrachiaria() {
       {/* Closing image band */}
       <div style={{
         position: "relative", width: "100%",
-        marginTop: isMobile ? 60 : 200,
+        marginTop: isMobile ? 0 : 200,
         aspectRatio: "24 / 9", maxHeight: 460, overflow: "hidden",
       }}>
         <img
@@ -1013,7 +1037,13 @@ function PastureRotation({ grazing, sectors, day: _day, dayInSector, daysPerSect
   ];
 
   const regimeCardsEl = (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+      gap: 16,
+      maxWidth: isMobile ? 320 : "100%",
+      marginInline: isMobile ? "auto" : undefined,
+    }}>
       {regimeRows.map((r) => (
         <div key={r.kind} style={{
           background: "linear-gradient(180deg, rgba(249,246,232,0.06) 0%, rgba(249,246,232,0.02) 100%)",

@@ -52,44 +52,53 @@ export default function BuenasPracticas() {
 
 function PracticeCard({ title, photo, delay: _delay }: { title: string; photo: string; delay: number }) {
   const [hover, setHover] = useState(false);
+
   return (
     <div
-      onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       style={{
-        position: "relative", paddingTop: 80,
-        transform: hover ? "translateY(-4px)" : "none",
-        transition: "transform 240ms var(--g-ease-soft)",
+        borderRadius: "50% 50% 20px 20px",
+        overflow: "hidden",
+        background: "var(--g-beige)",
+        boxShadow: hover
+          ? "0 22px 50px rgba(8,16,26,0.22)"
+          : "0 6px 20px rgba(8,16,26,0.12)",
+        transform: hover ? "translateY(-8px)" : "translateY(0)",
+        transition: "transform 300ms var(--g-ease-soft), box-shadow 300ms var(--g-ease-soft)",
       }}
     >
-      {/* Circular photo */}
-      <div style={{
-        position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-        width: 156, height: 156, borderRadius: "50%",
-        border: "3px solid var(--g-beige)",
-        boxShadow: "0 6px 20px rgba(8,16,26,0.18)",
-        overflow: "hidden", zIndex: 2,
-      }}>
-        <img src={photo} alt={title} style={{
-          width: "100%", height: "100%", objectFit: "cover", display: "block",
-          filter: "saturate(0.94) contrast(1.03)",
+      {/* Imagen — el domo de la card la recorta en arco */}
+      <div style={{ position: "relative", height: 220 }}>
+        <img
+          src={photo} alt={title}
+          style={{
+            width: "100%", height: "100%", objectFit: "cover", display: "block",
+            filter: "saturate(0.90) contrast(1.04)",
+            transform: hover ? "scale(1.07)" : "scale(1)",
+            transition: "transform 500ms var(--g-ease-soft)",
+          }}
+        />
+        <div aria-hidden style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(180deg, transparent 40%, rgba(8,16,26,0.22) 100%)",
+          pointerEvents: "none",
         }} />
       </div>
 
-      {/* Card */}
+      {/* Contenido */}
       <div style={{
-        background: "var(--g-beige)",
-        borderRadius: "120px 120px 14px 14px",
-        padding: "104px 24px 28px",
+        padding: "22px 24px 30px",
         textAlign: "center",
-        width: "100%",
-        boxShadow: hover ? "0 12px 28px rgba(8,16,26,0.14)" : "0 4px 12px rgba(8,16,26,0.08)",
-        transition: "box-shadow 240ms var(--g-ease-soft)",
-        minHeight: 240,
+        display: "flex", flexDirection: "column",
+        alignItems: "center", gap: 20,
       }}>
         <h3 style={{
-          fontFamily: "var(--g-font-display)", fontSize: 20, lineHeight: 1.15,
-          letterSpacing: "0.005em", color: "var(--g-petroleo-900)", fontWeight: 400,
-          margin: "0 0 22px", textTransform: "uppercase",
+          fontFamily: "var(--g-font-sans)",
+          fontSize: 13, lineHeight: 1.35,
+          letterSpacing: "0.14em", textTransform: "uppercase",
+          color: "var(--g-petroleo-800)", fontWeight: 500,
+          margin: 0,
         }}>
           {title}
         </h3>
