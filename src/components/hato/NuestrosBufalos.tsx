@@ -329,18 +329,11 @@ function BufalasLeche() {
           </div>
           <NBReveal delay={160}>
             <div style={{ width: "100%", height: "clamp(260px, 30vw, 380px)", borderRadius: 16, overflow: "hidden", border: "1px solid rgba(249,246,232,0.18)" }}>
-              <video
-                autoPlay muted loop playsInline
-                disablePictureInPicture
-                preload="auto"
-                style={{
-                  width: "100%", height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              >
-                <source src="/assets/videos/lecheria.mp4" type="video/mp4" />
-              </video>
+              <img
+                src="/assets/illustrations/lecheria.webp"
+                alt="Lechería Hato Guaicaramo"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
             </div>
           </NBReveal>
         </div>

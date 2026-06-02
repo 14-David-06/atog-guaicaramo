@@ -240,7 +240,7 @@ function TestimonialCard({ name, grad, photo, body, instagram, date, active }: T
           <img
             src={photo}
             alt={name}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transform: "scale(1.18)", transformOrigin: "center" }}
           />
         )}
       </div>

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react";
-import { SectionTitle } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 const practices = [
@@ -36,12 +35,34 @@ export default function BuenasPracticas() {
         pointerEvents: "none",
       }} />
       <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: secPad }}>
-        <SectionTitle color="var(--g-petroleo-900)">Nuestras buenas prácticas</SectionTitle>
+        <div style={{ textAlign: "center", marginBottom: isMobile ? 40 : 64 }}>
+          <h2 style={{
+            display: "inline-block",
+            fontFamily: "var(--g-font-display)",
+            fontSize: "clamp(28px, 3.8vw, 56px)",
+            lineHeight: 1.05,
+            letterSpacing: "-0.01em",
+            color: "var(--g-petroleo-900)",
+            fontWeight: 400,
+            margin: 0,
+          }}>
+            Nuestras{" "}
+            <em style={{ fontStyle: "italic", color: "var(--g-verde-700)" }}>buenas prácticas</em>
+          </h2>
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 12,
+            marginTop: 14,
+          }}>
+            <span style={{ width: 40, height: 1.5, background: "var(--g-petroleo-900)", opacity: 0.35, borderRadius: 2 }} />
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--g-verde-600)", opacity: 0.7 }} />
+            <span style={{ width: 40, height: 1.5, background: "var(--g-petroleo-900)", opacity: 0.35, borderRadius: 2 }} />
+          </div>
+        </div>
         <div style={{
           display: "grid",
           gridTemplateColumns: gridCols,
           gap: isMobile ? 48 : 22,
-          marginTop: isMobile ? 40 : 72,
+          marginTop: 0,
           alignItems: "stretch",
         }}>
           {practices.map((p, i) => <PracticeCard key={p.id} {...p} delay={i * 60} />)}

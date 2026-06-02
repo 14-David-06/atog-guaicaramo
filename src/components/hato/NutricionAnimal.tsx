@@ -763,6 +763,13 @@ function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHo
   const [tilt, setTilt]   = useState({ x: 0, y: 0 });
   const [btnHover, setBtnHover] = useState(false);
 
+  const bp       = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+
+  const imgWidth      = isMobile ? "125%" : isTablet ? "175%" : "190%";
+  const containerRatio = isMobile ? "4/3"  : "1024/700";
+
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
@@ -783,7 +790,7 @@ function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHo
         onMouseLeave={handleLeave}
         style={{
           position: "relative", width: "100%", maxWidth: 1060,
-          aspectRatio: "1024 / 700",
+          aspectRatio: containerRatio,
           transform: `perspective(1200px) rotateX(${tilt.y * -3}deg) rotateY(${tilt.x * 3}deg)`,
           transition: "transform 600ms var(--g-ease-soft)",
           transformStyle: "preserve-3d",
@@ -795,7 +802,7 @@ function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHo
           style={{
             position: "absolute", left: "50%", top: "50%",
             transform: `translate(-50%, -50%) translate(${tilt.x * -10}px, ${tilt.y * -10}px)`,
-            width: "140%", height: "auto", objectFit: "contain",
+            width: imgWidth, height: "auto", objectFit: "contain",
             filter: "drop-shadow(0 30px 50px rgba(8,16,26,0.22))",
             transition: "transform 600ms var(--g-ease-soft)",
             pointerEvents: "none",

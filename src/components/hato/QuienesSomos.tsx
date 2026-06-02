@@ -347,7 +347,7 @@ export default function QuienesSomos() {
             color: "var(--g-cafe-300)",
           }}>
             <span style={{ width: 32, height: 1, background: "var(--g-cafe-400)" }} />
-            Filosofía Guaicaramo
+            Hato Guaicaramo
             <span style={{ width: 32, height: 1, background: "var(--g-cafe-400)" }} />
           </div>
         </div>
@@ -565,95 +565,98 @@ function ValorCard({ icon, num, title, desc, tone, delay }: {
   const isTouch = useBreakpoint() !== "desktop";
   const toggle = () => setFlipped((f) => !f);
   return (
-    <div
-      onMouseEnter={isTouch ? undefined : () => setFlipped(true)}
-      onMouseLeave={isTouch ? undefined : () => setFlipped(false)}
-      onClick={toggle}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } }}
-      tabIndex={0}
-      role="button"
-      aria-pressed={flipped}
-      aria-label={`${title} — ${desc}`}
-      style={{ position: "relative", minHeight: 220, perspective: 1200, cursor: "pointer", ...qsRise(delay) }}
-    >
-      <div style={{
-        position: "relative", width: "100%", height: "100%", minHeight: 220,
-        transformStyle: "preserve-3d",
-        transition: "transform 600ms cubic-bezier(.4,.05,.2,1)",
-        transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-      }}>
-        {/* FRONT */}
+    <div style={{ ...qsRise(delay) }}>
+      <div
+        onMouseEnter={isTouch ? undefined : () => setFlipped(true)}
+        onMouseLeave={isTouch ? undefined : () => setFlipped(false)}
+        onClick={toggle}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } }}
+        tabIndex={0}
+        role="button"
+        aria-pressed={flipped}
+        aria-label={`${title} — ${desc}`}
+        style={{ position: "relative", minHeight: 220, perspective: 1200, cursor: "pointer", touchAction: "manipulation" }}
+      >
         <div style={{
-          position: "absolute", inset: 0,
-          background: tone,
-          border: "1px solid " + tone,
-          borderRadius: 14, padding: "28px 24px",
-          overflow: "hidden",
-          backfaceVisibility: "hidden",
-          WebkitBackfaceVisibility: "hidden",
-          display: "flex", flexDirection: "column", justifyContent: "space-between",
-          boxShadow: "0 14px 30px rgba(8,16,26,0.18)",
+          position: "relative", width: "100%", height: "100%", minHeight: 220,
+          transformStyle: "preserve-3d",
+          WebkitTransformStyle: "preserve-3d" as "preserve-3d",
+          transition: "transform 600ms cubic-bezier(.4,.05,.2,1)",
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}>
-          <span aria-hidden="true" style={{
-            position: "absolute", top: 16, right: 18,
-            fontFamily: "var(--g-font-display)", fontSize: 38,
-            color: "rgba(249,246,232,0.85)", lineHeight: 1,
-          }}>{num}</span>
-          <span style={{
-            width: 48, height: 48, borderRadius: 999,
-            display: "inline-flex", alignItems: "center", justifyContent: "center",
-            background: "rgba(249,246,232,0.22)", color: "var(--g-beige)",
-            alignSelf: "flex-start",
-          }}>
-            <HatoIcon name={icon} size={22} />
-          </span>
+          {/* FRONT */}
           <div style={{
-            flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
-            textAlign: "center",
+            position: "absolute", inset: 0,
+            background: tone,
+            border: "1px solid " + tone,
+            borderRadius: 14, padding: "28px 24px",
+            overflow: "hidden",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            display: "flex", flexDirection: "column", justifyContent: "space-between",
+            boxShadow: "0 14px 30px rgba(8,16,26,0.18)",
           }}>
-            <h3 style={{
-              fontFamily: "var(--g-font-display)",
-              fontSize: "clamp(34px, 2.6vw, 42px)",
-              lineHeight: 1.0, letterSpacing: "-0.018em",
-              color: "var(--g-beige)", fontWeight: 400, margin: 0,
-            }}>{title}</h3>
+            <span aria-hidden="true" style={{
+              position: "absolute", top: 16, right: 18,
+              fontFamily: "var(--g-font-display)", fontSize: 38,
+              color: "rgba(249,246,232,0.85)", lineHeight: 1,
+            }}>{num}</span>
+            <span style={{
+              width: 48, height: 48, borderRadius: 999,
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              background: "rgba(249,246,232,0.22)", color: "var(--g-beige)",
+              alignSelf: "flex-start",
+            }}>
+              <HatoIcon name={icon} size={22} />
+            </span>
+            <div style={{
+              flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+              textAlign: "center",
+            }}>
+              <h3 style={{
+                fontFamily: "var(--g-font-display)",
+                fontSize: "clamp(34px, 2.6vw, 42px)",
+                lineHeight: 1.0, letterSpacing: "-0.018em",
+                color: "var(--g-beige)", fontWeight: 400, margin: 0,
+              }}>{title}</h3>
+            </div>
           </div>
-        </div>
 
-        {/* BACK */}
-        <div style={{
-          position: "absolute", inset: 0,
-          background: tone,
-          border: "1px solid " + tone,
-          borderRadius: 14, padding: "28px 24px",
-          overflow: "hidden",
-          backfaceVisibility: "hidden",
-          WebkitBackfaceVisibility: "hidden",
-          transform: "rotateY(180deg)",
-          display: "flex", flexDirection: "column", justifyContent: "space-between",
-          boxShadow: "0 16px 40px rgba(8,16,26,0.22)",
-        }}>
-          <span aria-hidden="true" style={{
-            position: "absolute", top: 16, right: 18,
-            fontFamily: "var(--g-font-display)", fontSize: 38,
-            color: "rgba(249,246,232,0.35)", lineHeight: 1,
-          }}>{num}</span>
-          <span style={{
-            width: 48, height: 48, borderRadius: 999,
-            display: "inline-flex", alignItems: "center", justifyContent: "center",
-            background: "rgba(249,246,232,0.18)", color: "var(--g-beige)",
-            alignSelf: "flex-start",
-          }}>
-            <HatoIcon name={icon} size={22} />
-          </span>
+          {/* BACK */}
           <div style={{
-            flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
-            textAlign: "center",
+            position: "absolute", inset: 0,
+            background: tone,
+            border: "1px solid " + tone,
+            borderRadius: 14, padding: "28px 24px",
+            overflow: "hidden",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+            display: "flex", flexDirection: "column", justifyContent: "space-between",
+            boxShadow: "0 16px 40px rgba(8,16,26,0.22)",
           }}>
-            <p style={{
-              fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.55,
-              color: "var(--g-beige)", margin: 0, textWrap: "pretty", fontWeight: 400,
-            }}>{desc}</p>
+            <span aria-hidden="true" style={{
+              position: "absolute", top: 16, right: 18,
+              fontFamily: "var(--g-font-display)", fontSize: 38,
+              color: "rgba(249,246,232,0.35)", lineHeight: 1,
+            }}>{num}</span>
+            <span style={{
+              width: 48, height: 48, borderRadius: 999,
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              background: "rgba(249,246,232,0.18)", color: "var(--g-beige)",
+              alignSelf: "flex-start",
+            }}>
+              <HatoIcon name={icon} size={22} />
+            </span>
+            <div style={{
+              flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+              textAlign: "center",
+            }}>
+              <p style={{
+                fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.55,
+                color: "var(--g-beige)", margin: 0, textWrap: "pretty", fontWeight: 400,
+              }}>{desc}</p>
+            </div>
           </div>
         </div>
       </div>
