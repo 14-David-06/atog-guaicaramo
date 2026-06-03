@@ -165,7 +165,7 @@ function SistemaIntro() {
           <NBRiseLine text="con una lógica clara." delay={120} color="var(--g-petroleo-700)" italic size="clamp(34px, 5vw, 78px)" />
         </div>
 
-        <div style={{ marginTop: "clamp(48px,6vw,84px)", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 1, background: "var(--g-line)", border: "1px solid var(--g-line)", borderRadius: 18, overflow: "hidden" }}>
+        <div style={{ marginTop: "clamp(48px,6vw,84px)", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 1, background: "var(--g-line)", border: "1px solid var(--g-line)", borderRadius: 18, overflow: "hidden" }}>
           {pillars.map((p, i) => (
             <NBReveal key={p.k} delay={i * 110} style={{ background: "var(--g-bg-elevated)" }}>
               <div style={{ padding: "34px 30px 38px", height: "100%" }}>
@@ -195,6 +195,7 @@ function SistemaIntro() {
 function PilaresIndex() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
   const pad = isMobile ? "clamp(54px,7vw,90px) 24px" : "clamp(54px,7vw,90px) 56px";
   const items = [
     { n: "01", t: "Búfalos de trabajo", d: "Fuerza · resistencia · docilidad" },
@@ -204,12 +205,12 @@ function PilaresIndex() {
   return (
     <section style={{ background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(36px,5vw,60px) 0` }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: pad }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 0 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 0 }}>
           {items.map((it, i) => (
             <NBReveal key={it.n} delay={i * 110} style={{
-              padding: isMobile ? "16px 24px" : "8px 36px",
-              borderLeft: !isMobile && i % 2 === 1 ? "1px solid rgba(249,246,232,0.16)" : "none",
-              borderTop: (isMobile && i > 0) || (!isMobile && i >= 2) ? "1px solid rgba(249,246,232,0.16)" : "none",
+              padding: isMobile ? "16px 24px" : isTablet ? "8px 18px" : "8px 36px",
+              borderLeft: !isMobile && i > 0 ? "1px solid rgba(249,246,232,0.16)" : "none",
+              borderTop: isMobile && i > 0 ? "1px solid rgba(249,246,232,0.16)" : "none",
             }}>
               <div style={{ fontFamily: "var(--g-font-display)", fontSize: 15, letterSpacing: "0.12em", color: "var(--g-petroleo-200)", marginBottom: 14 }}>{it.n}</div>
               <div style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(24px,2.4vw,34px)", lineHeight: 1.08, marginBottom: 10 }}>{it.t}</div>
@@ -225,13 +226,26 @@ function PilaresIndex() {
 /* =====================================================================
    01 · BÚFALOS DE TRABAJO
 ===================================================================== */
-/* ── Trait row compartido (reemplaza las barras) ── */
-function NBTraitRow({ k, d, delay }: { k: string; d: string; delay: number }) {
+/* ── Trait row con barra animada opcional ── */
+function NBTraitRow({ k, d, delay, pct }: { k: string; d: string; delay: number; pct?: number }) {
+  const [ref, seen] = useNBReveal();
   return (
     <NBReveal delay={delay}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, padding: "14px 0", borderBottom: "1px solid var(--g-line)" }}>
-        <span style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(18px,1.8vw,22px)", color: "var(--g-petroleo-900)", flexShrink: 0 }}>{k}</span>
-        <span style={{ fontFamily: "var(--g-font-sans)", fontSize: 13, color: "var(--g-cafe-700)", textAlign: "right" }}>{d}</span>
+      <div style={{ padding: "14px 0" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: pct !== undefined ? 10 : 0, borderBottom: pct !== undefined ? "none" : "1px solid var(--g-line)" }}>
+          <span style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(18px,1.8vw,22px)", color: "var(--g-petroleo-900)", flexShrink: 0 }}>{k}</span>
+          <span style={{ fontFamily: "var(--g-font-sans)", fontSize: 13, color: "var(--g-cafe-700)", textAlign: "right" }}>{d}</span>
+        </div>
+        {pct !== undefined && (
+          <div ref={ref} style={{ height: 3, borderRadius: 2, background: "var(--g-petroleo-100)", overflow: "hidden" }}>
+            <div style={{
+              height: "100%", borderRadius: 2,
+              width: seen ? `${pct}%` : "0%",
+              background: "linear-gradient(90deg, var(--g-petroleo-800), var(--g-petroleo-600))",
+              transition: `width 1000ms cubic-bezier(.2,.7,.2,1) ${delay + 120}ms`,
+            }} />
+          </div>
+        )}
       </div>
     </NBReveal>
   );
@@ -243,9 +257,9 @@ function BufalosTrabajo() {
   const isTablet = bp === "tablet";
   const hPad = isMobile ? "24px" : isTablet ? "clamp(32px,4vw,56px)" : "clamp(56px,6vw,96px)";
   const traits = [
-    { k: "Fuerza",      d: "Tracción y capacidad operativa" },
-    { k: "Resistencia", d: "Adaptados a sistemas rurales exigentes" },
-    { k: "Docilidad",   d: "Manejo seguro y predecible" },
+    { k: "Fuerza",      d: "Tracción y capacidad operativa",       pct: 92 },
+    { k: "Resistencia", d: "Adaptados a sistemas rurales exigentes", pct: 78 },
+    { k: "Docilidad",   d: "Manejo seguro y predecible",            pct: 64 },
   ];
   return (
     <section style={{ background: "var(--g-bg)", padding: `clamp(64px,8vw,112px) 0`, overflow: "hidden" }}>
@@ -321,7 +335,9 @@ function BufalasLeche() {
   return (
     <section style={{ background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(64px,8vw,112px) 0`, overflow: "hidden" }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: `0 ${hPad}` }}>
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.1fr 1fr", gap: "clamp(40px,5vw,88px)", alignItems: "center" }}>
+
+        {/* ── Fila superior: heading | foto ── */}
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.1fr 1fr", gap: "clamp(40px,5vw,72px)", alignItems: "center", marginBottom: "clamp(32px,4vw,52px)" }}>
           <div>
             <NBReveal>
               <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 18 }}>
@@ -330,36 +346,45 @@ function BufalasLeche() {
               </div>
             </NBReveal>
             <NBReveal delay={80}>
-              <h2 style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(34px,4.4vw,62px)", lineHeight: 1.02, letterSpacing: "-0.02em", color: "var(--g-beige)", fontWeight: 400, margin: "0 0 24px", textWrap: "balance" }}>
+              <h2 style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(34px,4.4vw,62px)", lineHeight: 1.02, letterSpacing: "-0.02em", color: "var(--g-beige)", fontWeight: 400, margin: "0 0 20px", textWrap: "balance" }}>
                 La producción no se <em style={{ fontStyle: "italic", color: "var(--g-petroleo-200)" }}>deja al azar</em>.
               </h2>
             </NBReveal>
             <NBReveal delay={160}>
-              <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 17, lineHeight: 1.7, color: "rgba(249,246,232,0.72)", margin: "0 0 36px", maxWidth: "52ch", textWrap: "pretty" }}>
+              <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 17, lineHeight: 1.7, color: "rgba(249,246,232,0.72)", margin: 0, maxWidth: "52ch", textWrap: "pretty" }}>
                 Cada búfala está identificada. Sabemos cuánto produce, cómo responde al manejo y cómo se comporta dentro del sistema.
               </p>
             </NBReveal>
-
-            {/* Estadísticas animadas */}
-            <div style={{ display: "grid", gap: 0 }}>
-              {statRows.map((s, i) => (
-                <NBReveal key={s.k} delay={i * 110}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, padding: "14px 0", borderBottom: "1px solid rgba(249,246,232,0.14)" }}>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexShrink: 0 }}>
-                      <span style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(22px,2.4vw,30px)", color: "var(--g-beige)", lineHeight: 1 }}>
-                        <NBCount to={s.to} suffix={s.suffix} sep={s.sep} />
-                      </span>
-                      <span style={{ fontFamily: "var(--g-font-sans)", fontSize: 13, color: "rgba(249,246,232,0.6)" }}>{s.k}</span>
-                    </div>
-                    <span style={{ fontFamily: "var(--g-font-sans)", fontSize: 12, color: "var(--g-petroleo-300)", textAlign: "right" }}>{s.d}</span>
-                  </div>
-                </NBReveal>
-              ))}
-            </div>
           </div>
 
           <NBTiltPhoto src="/assets/illustrations/lecheria.webp" badge="Búfalas para leche" objectPosition="center" />
         </div>
+
+        {/* ── Fila inferior: estadísticas animadas ── */}
+        <NBReveal delay={120} style={{
+          background: "rgba(249,246,232,0.04)",
+          border: "1px solid rgba(249,246,232,0.08)",
+          borderRadius: 14,
+        }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+            gap: 0,
+          }}>
+            {statRows.map((s, i) => (
+              <NBReveal key={s.k} delay={i * 100 + 120} style={{
+                padding: isMobile ? "20px 16px" : "28px 24px",
+              }}>
+                <div style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(26px,3vw,42px)", color: "var(--g-beige)", lineHeight: 1, marginBottom: 6 }}>
+                  <NBCount to={s.to} suffix={s.suffix} sep={s.sep} />
+                </div>
+                <div style={{ fontFamily: "var(--g-font-sans)", fontSize: 13, color: "rgba(249,246,232,0.65)", lineHeight: 1.3, marginBottom: 4 }}>{s.k}</div>
+                <div style={{ fontFamily: "var(--g-font-sans)", fontSize: 11, color: "var(--g-petroleo-300)", letterSpacing: "0.04em" }}>{s.d}</div>
+              </NBReveal>
+            ))}
+          </div>
+        </NBReveal>
+
       </div>
     </section>
   );
@@ -374,9 +399,9 @@ function BufalosCarne() {
   const isTablet = bp === "tablet";
   const hPad = isMobile ? "24px" : isTablet ? "clamp(32px,4vw,56px)" : "clamp(56px,6vw,96px)";
   const linea = [
-    { k: "Machos de levante",   d: "Crecimiento eficiente bajo manejo planificado." },
-    { k: "Toros reproductores", d: "75% mediterráneos, de búfalas élite de nuestros ordeños." },
-    { k: "Bubillas preñadas",   d: "Hembras de reposición listas para el sistema." },
+    { k: "Machos de levante",   d: "Crecimiento eficiente bajo manejo planificado.",           pct: 88 },
+    { k: "Toros reproductores", d: "75% mediterráneos, de búfalas élite de nuestros ordeños.", pct: 75 },
+    { k: "Bubillas preñadas",   d: "Hembras de reposición listas para el sistema.",            pct: 62 },
   ];
   return (
     <section style={{ background: "var(--g-bg)", padding: `clamp(64px,8vw,112px) 0`, overflow: "hidden" }}>
