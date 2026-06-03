@@ -16,27 +16,27 @@ const accent: React.CSSProperties = {
 
 const HERO_SLIDES: HeroSlide[] = [
   {
-    photo: "/assets/photography/hero-nelore-hato.jpg",
+    photo: "/assets/photography/hero-nelore-grupo.jpg",
     label: "Nelore CIA · ganado para el trópico",
     copy: <>Somos una empresa ganadera <br />especializada en{" "}
       <em style={accent}>genética de talla mundial</em>
       {" "}y en la creación de sistemas eficientes de producción animal para el trópico.</>,
   },
   {
-    photo: "/assets/photography/bufalos-pastura-cordillera.jpg",
-    label: "Búfalos Mediterráneos",
-    copy: <>En Hato Guaicaramo no trabajamos el búfalo como una especie más.<br />
+    photo: "/assets/photography/hero-nelore-llanero.jpg",
+    label: "El campo y la ciencia unidos",
+    copy: <>En Hato Guaicaramo no trabajamos el ganado como una especie más.<br />
       <em style={accent}>Lo integramos como un sistema productivo real.</em></>,
   },
   {
-    photo: "/assets/photography/bufalas-pastoreo.jpg",
-    label: "Pastoreo rotacional",
+    photo: "/assets/photography/hero-bufalos-caras.jpg",
+    label: "Búfalos Mediterráneos",
     copy: <>Aquí no formulamos productos.<br />
       <em style={accent}>Diseñamos resultados.</em></>,
   },
   {
-    photo: "/assets/photography/ordeno-bufalas.jpg",
-    label: "Hato lechero de búfalas",
+    photo: "/assets/photography/hero-bufalos-manada.jpg",
+    label: "Hato bufalino Guaicaramo",
     copy: <>Aquí la producción no se deja al azar.<br />
       <em style={accent}>Se controla. Se sostiene. Se construye.</em></>,
   },
@@ -44,6 +44,7 @@ const HERO_SLIDES: HeroSlide[] = [
 
 export default function HatoHero() {
   const [idx, setIdx] = useState(0);
+  const [isLandscape, setIsLandscape] = useState(false);
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
@@ -53,15 +54,24 @@ export default function HatoHero() {
     return () => clearInterval(t);
   }, []);
 
+  useEffect(() => {
+    const check = () => setIsLandscape(
+      window.innerWidth > window.innerHeight && window.innerHeight < 500
+    );
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const hPad = isMobile ? 20 : isTablet ? 32 : 56;
-  const vPad = isMobile ? 80 : 110;
+  const vPad = isLandscape ? 36 : isMobile ? 80 : 110;
 
   return (
     <section style={{
       position: "relative",
       height: "100vh",
-      minHeight: isMobile ? 580 : 700,
-      maxHeight: 900,
+      minHeight: isLandscape ? 0 : isMobile ? 580 : 700,
+      maxHeight: isLandscape ? "100vh" : 900,
       overflow: "hidden",
       background: "#1a2120",
     }} id="quienes">
@@ -119,7 +129,7 @@ export default function HatoHero() {
       {/* Carousel dots — fijos en la parte inferior */}
       <div style={{
         position: "absolute",
-        bottom: isMobile ? 32 : 48,
+        bottom: isLandscape ? 16 : isMobile ? 32 : 48,
         left: hPad,
         right: hPad,
         display: "flex",

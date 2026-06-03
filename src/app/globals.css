@@ -468,3 +468,199 @@ body {
   min-width: 100%;
   min-height: 100%;
 }
+
+/* ============================================================
+   SISTEMA RESPONSIVO — Mobile-first
+   Fases 1-8 se acumulan aquí.
+   Los tokens --g-rsp-* son la fuente de verdad para cada fase.
+   Los componentes .tsx leen useBreakpoint() para los valores JS,
+   pero estos tokens CSS actúan como overrides de última instancia.
+   ============================================================ */
+
+/* ────────────────────────────────────────────────────────────
+   FASE 1 — BASE MÓVIL (sin media query)
+   Aplica en TODOS los anchos. Valor mínimo seguro.
+   < 390px (360px Android · iPhone SE)
+   ──────────────────────────────────────────────────────────── */
+
+/* Tokens de layout responsivo — se sobreescriben en cada fase */
+:root {
+  --g-rsp-pad-inline:    16px;    /* padding horizontal de contenedores */
+  --g-rsp-section-vpad:  48px;    /* padding vertical de secciones */
+  --g-rsp-gap:           20px;    /* gap base entre tarjetas/grids */
+  --g-rsp-card-radius:   0px;     /* en mobile las cards van a full-bleed */
+  --g-rsp-card-max:      1440px;  /* ancho máximo de contenedores internos */
+}
+
+/* iOS: evita que el navegador agrande texto automáticamente al rotar */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Previene que el contenido rompa el ancho de la pantalla */
+section, main, article, aside, header, footer, nav {
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+/* Imágenes en flujo normal: siempre fluidas */
+img:not([style*="position: absolute"]):not([style*="position:absolute"]) {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* SVG en flujo: no se desborda */
+svg:not([style*="position: absolute"]):not([style*="position:absolute"]) {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Contenedor base seguro — usar con className="g-wrap" en JSX */
+.g-wrap {
+  width: 100%;
+  max-width: var(--g-rsp-card-max);
+  margin-inline: auto;
+  padding-inline: var(--g-rsp-pad-inline);
+}
+
+/* Texto mínimo legible — 14px en cualquier dispositivo */
+p, li, span, label, td, th {
+  font-size: max(14px, 1em);
+}
+
+/* ────────────────────────────────────────────────────────────
+   FASE 2 — MÓVIL MEDIANO (390px – 480px)
+   Padding crece de 16px a 20px. Gap crece a 24px.
+   ──────────────────────────────────────────────────────────── */
+@media (min-width: 390px) {
+  :root {
+    --g-rsp-pad-inline:   20px;
+    --g-rsp-gap:          24px;
+    --g-rsp-section-vpad: 56px;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   FASE 3 — TABLET PEQUEÑA (640px – 768px)
+   Padding 32px · gap 28px · grids de 2 columnas donde aplica.
+   ──────────────────────────────────────────────────────────── */
+@media (min-width: 640px) {
+  :root {
+    --g-rsp-pad-inline:    32px;
+    --g-rsp-gap:           28px;
+    --g-rsp-section-vpad:  72px;
+    --g-rsp-card-radius:   14px;  /* cards dejan de ser full-bleed */
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   FASE 4 — TABLET GRANDE / DESKTOP ESTRECHO (1024px – 1366px)
+   Padding 56px · grids vuelven a estructura original.
+   ──────────────────────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  :root {
+    --g-rsp-pad-inline:    56px;
+    --g-rsp-gap:           32px;
+    --g-rsp-section-vpad:  88px;
+    --g-rsp-card-radius:   22px;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   FASE 5 — DESKTOP ESTÁNDAR (≥ 1440px)
+   Confirma valores finales. Contenido centrado, max 1440px.
+   ──────────────────────────────────────────────────────────── */
+@media (min-width: 1440px) {
+  :root {
+    --g-rsp-pad-inline:    56px;
+    --g-rsp-gap:           40px;
+    --g-rsp-section-vpad:  96px;
+    --g-rsp-card-radius:   22px;
+    --g-rsp-card-max:      1440px;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   FASE 6 — FULL HD (≥ 1920px) · Opción A
+   Contenido centrado, techo 1440px.
+   El fondo de secciones hero sí ocupa todo el ancho.
+   ──────────────────────────────────────────────────────────── */
+@media (min-width: 1920px) {
+  :root {
+    --g-rsp-pad-inline:    56px;    /* padding no sube — el techo 1440px ya centra */
+    --g-rsp-gap:           44px;
+    --g-rsp-section-vpad:  112px;
+    --g-rsp-card-max:      1440px;  /* techo explícito */
+  }
+
+  /* Contenedor universal centrado — se aplica con className="g-wrap" */
+  .g-wrap {
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 56px;
+  }
+
+  /* Evitar que secciones de fondo pleno limiten la imagen */
+  section {
+    background-size: cover;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   FASE 8 — LANDSCAPE MÓVIL (orientación horizontal, altura < 500px)
+   iPhone girado, Android landscape.
+   ──────────────────────────────────────────────────────────── */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root {
+    --g-rsp-section-vpad: 20px;   /* padding vertical mínimo */
+    --g-rsp-pad-inline:   20px;   /* padding horizontal compacto */
+  }
+
+  /* Secciones hero: no exceder el viewport en altura */
+  section {
+    min-height: 0 !important;    /* anula el minHeight JS inline en hero */
+    max-height: none;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   FASE 7 — ULTRA ANCHO / 4K (≥ 2560px) · Opción A
+   max-width: 2000px centrado · padding: 120px
+   El contenido NO ocupa todo el ancho — queda enmarcado.
+   ──────────────────────────────────────────────────────────── */
+@media (min-width: 2560px) {
+  :root {
+    --g-rsp-pad-inline:    120px;
+    --g-rsp-gap:           48px;
+    --g-rsp-section-vpad:  128px;
+    --g-rsp-card-max:      2000px;
+  }
+
+  /* .g-wrap respeta el nuevo techo de 2000px */
+  .g-wrap {
+    max-width: 2000px;
+    padding-inline: 120px;
+  }
+
+  /* Tipografía ligeramente mayor para monitores grandes vistos de lejos */
+  html {
+    font-size: 112%;
+  }
+
+  /* Borde visual que enmarca el contenido (opcional pero elegante) */
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: calc((100vw - 2000px) / 2);
+    background: var(--g-bg);
+    z-index: 9999;
+    pointer-events: none;
+  }
+  body::before { left: 0; }
+  body::after  { right: 0; }
+}

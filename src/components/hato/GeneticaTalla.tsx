@@ -55,6 +55,8 @@ function GTRise({ text, delay = 0, color, italic = false, size, weight = 400 }: 
 function GTTilt({ src, badge, objectPosition = "center" }: { src: string; badge: string; objectPosition?: string }) {
   const [ref, seen] = useGTReveal();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     setTilt({ x: (e.clientX - r.left) / r.width - 0.5, y: (e.clientY - r.top) / r.height - 0.5 });
@@ -65,7 +67,7 @@ function GTTilt({ src, badge, objectPosition = "center" }: { src: string; badge:
         <img src={src} alt={badge} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition, transform: `scale(1.07) translate(${tilt.x * -10}px, ${tilt.y * -10}px)`, transition: "transform 600ms var(--g-ease-soft)" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 52%, rgba(26,33,32,0.52) 100%)" }} />
       </div>
-      <div style={{ position: "absolute", left: -22, bottom: 30, background: "var(--g-beige)", border: "1px solid var(--g-line)", borderRadius: 14, padding: "14px 20px", boxShadow: "0 18px 40px rgba(26,33,32,0.16)", transform: "translateZ(60px)" }}>
+      <div style={{ position: "absolute", left: isMobile ? 16 : -22, bottom: 30, background: "var(--g-beige)", border: "1px solid var(--g-line)", borderRadius: 14, padding: "14px 20px", boxShadow: "0 18px 40px rgba(26,33,32,0.16)", transform: "translateZ(60px)" }}>
         <div style={{ fontFamily: "var(--g-font-sans)", fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--g-verde-600)", marginBottom: 4 }}>Hato Guaicaramo</div>
         <div style={{ fontFamily: "var(--g-font-display)", fontSize: 19, color: "var(--g-verde-900)" }}>{badge}</div>
       </div>
@@ -269,7 +271,7 @@ function GTHero() {
   const pad = isMobile ? "64px 24px 40px" : "72px 56px 56px";
   return (
     <section style={{ position: "relative", minHeight: "100vh", background: "var(--g-verde-900)", color: "var(--g-beige)", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-      <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "url('/assets/photography/hero-nelore-hato.jpg')", backgroundSize: "cover", backgroundPosition: "center", animation: "gt-floatBg 24s ease-in-out infinite alternate" }} />
+      <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "url('/assets/photography/nelore-grupo-campo.jpg')", backgroundSize: "cover", backgroundPosition: "center", animation: "gt-floatBg 24s ease-in-out infinite alternate" }} />
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(26,33,32,0.74) 0%, rgba(26,33,32,0.34) 36%, rgba(26,33,32,0.66) 74%, rgba(26,33,32,0.95) 100%)" }} />
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 80% 26%, rgba(98,119,97,0.40), transparent 54%)" }} />
 
@@ -304,9 +306,7 @@ function GTHero() {
 function GTEnfoque() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const isTablet = bp === "tablet";
-  const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(48px,7vw,96px) 24px clamp(28px,4vw,44px)" : "clamp(48px,7vw,96px) 56px clamp(28px,4vw,44px)";
+  const pad = "clamp(48px,7vw,96px) 0 clamp(28px,4vw,44px)";
   const pillars = [
     { icon: "timer-reset", k: "Ciclos más cortos",       d: "Reducimos el tiempo de producción en cada etapa." },
     { icon: "trending-up", k: "Resultados acelerados",   d: "Más kilos de carne, más rápido, con eficiencia real." },
@@ -327,7 +327,7 @@ function GTEnfoque() {
           <GTRise text="más kilos, menos tiempo." delay={120} color="var(--g-verde-500)" italic size="clamp(32px, 5vw, 76px)" />
         </div>
 
-        <div style={{ marginTop: "clamp(44px,5vw,72px)", display: "grid", gridTemplateColumns: isSmall ? "1fr" : "1.3fr 1fr", gap: "clamp(36px,5vw,72px)", alignItems: "center" }}>
+        <div style={{ marginTop: "clamp(44px,5vw,72px)", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.3fr 1fr", gap: "clamp(36px,5vw,72px)", alignItems: "center" }}>
           <GTReveal delay={120}>
             <p style={{ fontFamily: "var(--g-font-sans)", fontSize: "clamp(17px,1.6vw,20px)", lineHeight: 1.7, color: "var(--g-cafe-700)", margin: 0, maxWidth: "58ch", textWrap: "pretty" }}>
               Invertimos en <strong style={{ color: "var(--g-verde-900)", fontWeight: 500 }}>genética de talla mundial</strong> y trabajamos bajo el programa de Mejoramiento Genético <strong style={{ color: "var(--g-verde-900)", fontWeight: 500 }}>CIA</strong>. Nuestro enfoque es claro: producir animales que rinden dentro del sistema.
@@ -373,9 +373,7 @@ function GTEnfoque() {
 function GTToros() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const isTablet = bp === "tablet";
-  const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(32px,4vw,52px) 24px clamp(56px,7vw,96px)" : "clamp(32px,4vw,52px) 56px clamp(56px,7vw,96px)";
+  const pad = "clamp(32px,4vw,52px) 0 clamp(56px,7vw,96px)";
   return (
     <section style={{ background: "var(--g-bg)", padding: pad, overflow: "hidden" }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
@@ -387,8 +385,8 @@ function GTToros() {
         </GTReveal>
 
         {/* 01 · Nelore 100% */}
-        <div style={{ display: "grid", gridTemplateColumns: isSmall ? "1fr" : "1fr 1.05fr", gap: "clamp(40px,5vw,88px)", alignItems: "center", marginBottom: "clamp(72px,9vw,128px)" }}>
-          <GTTilt src="/assets/photography/nelore-ejemplar.jpg" badge="Nelore 100%" objectPosition="center" />
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.05fr", gap: "clamp(40px,5vw,88px)", alignItems: "center", marginBottom: "clamp(72px,9vw,128px)" }}>
+          <GTTilt src="/assets/photography/nelore-trio-caras.jpg" badge="Nelore 100%" objectPosition="center top" />
           <div>
             <GTReveal>
               <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 18 }}>
@@ -416,7 +414,7 @@ function GTToros() {
         </div>
 
         {/* 02 · Cruces Nelore × Brahman */}
-        <div style={{ display: "grid", gridTemplateColumns: isSmall ? "1fr" : "1.05fr 1fr", gap: "clamp(40px,5vw,88px)", alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.05fr 1fr", gap: "clamp(40px,5vw,88px)", alignItems: "center" }}>
           <div>
             <GTReveal>
               <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 18 }}>
@@ -436,7 +434,7 @@ function GTToros() {
             </GTReveal>
             <GTReveal delay={220}><GTBlendBar /></GTReveal>
           </div>
-          <GTTilt src="/assets/photography/nelore-tres.jpg" badge="Nelore × Brahman" objectPosition="center" />
+          <GTTilt src="/assets/photography/nelore-ternero.jpg" badge="Nelore × Brahman" objectPosition="center" />
         </div>
       </div>
     </section>
@@ -449,9 +447,7 @@ function GTToros() {
 function GTPortafolio() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const isTablet = bp === "tablet";
-  const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(56px,7vw,96px) 24px" : "clamp(56px,7vw,96px) 56px";
+  const pad = "clamp(56px,7vw,96px) 0";
   const items = [
     { icon: "venus",     k: "Hembras preñadas Nelore CIA",           d: "Reposición de línea pura, lista para el sistema." },
     { icon: "git-merge", k: "Hembras preñadas Nelore CIA × Brahman", d: "Grados 50%, 75% y 87% CIA según su transición." },
@@ -461,7 +457,7 @@ function GTPortafolio() {
   return (
     <section style={{ background: "var(--g-verde-50)", padding: pad, overflow: "hidden" }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr", gap: "clamp(32px,5vw,72px)", alignItems: "end", marginBottom: "clamp(44px,5vw,68px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "clamp(32px,5vw,72px)", alignItems: "end", marginBottom: "clamp(44px,5vw,68px)" }}>
           <div>
             <GTReveal>
               <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 22, fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--g-verde-600)" }}>
@@ -507,13 +503,11 @@ function GTPortCard({ icon, k, d, n: _n, delay }: { icon: string; k: string; d: 
 function GTBiotec() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const isTablet = bp === "tablet";
-  const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(60px,7vw,100px) 24px" : "clamp(60px,7vw,100px) 56px";
+  const pad = "clamp(60px,7vw,100px) 0";
   const logica = ["Reducir ciclos", "Mejorar rendimiento", "Aumentar productividad", "Sostener el crecimiento"];
   return (
     <section style={{ position: "relative", background: "var(--g-verde-900)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
-      <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "url('/assets/photography/manada-nelore.jpg')", backgroundSize: "cover", backgroundPosition: "center", opacity: 0.14, filter: "saturate(0.85)" }} />
+      <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "url('/assets/photography/nelore-grupo-social.jpg')", backgroundSize: "cover", backgroundPosition: "center", opacity: 0.14, filter: "saturate(0.85)" }} />
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 24% 18%, rgba(98,119,97,0.34), transparent 52%)" }} />
       <div aria-hidden style={{ position: "absolute", right: "5%", top: "12%", opacity: 0.5, animation: "gt-helixDrift 9s ease-in-out infinite", pointerEvents: "none" }}>
         <GTHelix />
@@ -532,7 +526,7 @@ function GTBiotec() {
           <GTRise text="directo al sistema." delay={120} color="var(--g-verde-300)" italic size="clamp(32px,5.2vw,80px)" />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: isSmall ? "1fr" : "1.2fr 1fr", gap: "clamp(40px,5vw,80px)", alignItems: "center", marginTop: "clamp(44px,5vw,72px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.2fr 1fr", gap: "clamp(40px,5vw,80px)", alignItems: "center", marginTop: "clamp(44px,5vw,72px)" }}>
           <div>
             <GTReveal>
               <p style={{ fontFamily: "var(--g-font-sans)", fontSize: "clamp(16px,1.5vw,19px)", lineHeight: 1.7, color: "rgba(249,246,232,0.86)", margin: "0 0 18px", maxWidth: "54ch", textWrap: "pretty" }}>
@@ -582,7 +576,7 @@ function GTBiotec() {
 function GTManifest() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const pad = isMobile ? "clamp(96px,13vw,170px) 24px" : "clamp(96px,13vw,170px) 56px";
+  const pad = "clamp(96px,13vw,170px) 0";
   return (
     <section style={{ position: "relative", background: "var(--g-verde-800)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", left: "6%", top: "50%", transform: "translateY(-50%)", opacity: 0.4, animation: "gt-helixDrift 10s ease-in-out infinite", pointerEvents: "none" }}>
@@ -607,7 +601,7 @@ function GTManifest() {
 function GTCTA() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const pad = isMobile ? "clamp(48px,6vw,80px) 24px" : "clamp(48px,6vw,80px) 56px";
+  const pad = "clamp(48px,6vw,80px) 0";
   return (
     <section style={{ position: "relative", background: "var(--g-verde-900)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 120%, rgba(98,119,97,0.3), transparent 60%)" }} />

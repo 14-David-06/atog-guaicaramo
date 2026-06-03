@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react";
 
-export type Breakpoint = "mobile" | "tablet" | "desktop";
+export type Breakpoint = "mobile" | "tablet" | "desktop" | "wide";
 
 /**
  * Devuelve el breakpoint activo según el ancho del viewport.
  * mobile  < 640px
  * tablet  640px – 1023px
- * desktop ≥ 1024px
+ * desktop 1024px – 2559px
+ * wide    ≥ 2560px  (4K / ultra-ancho)
  * SSR-safe: devuelve "desktop" hasta que el cliente hidrate.
  */
 export function useBreakpoint(): Breakpoint {
@@ -18,7 +19,8 @@ export function useBreakpoint(): Breakpoint {
     function get(): Breakpoint {
       if (window.innerWidth < 640)  return "mobile";
       if (window.innerWidth < 1024) return "tablet";
-      return "desktop";
+      if (window.innerWidth < 2560) return "desktop";
+      return "wide";
     }
     const handler = () => setBp(get());
     window.addEventListener("resize", handler);

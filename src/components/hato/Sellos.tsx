@@ -38,7 +38,7 @@ export default function Sellos() {
           display: "grid",
           gridTemplateColumns: gridCols,
           gap: isMobile ? 16 : 24,
-          alignItems: "center", justifyItems: "center", marginTop: 56,
+          alignItems: "center", justifyItems: "center", marginTop: isMobile ? 32 : 56,
         }}>
           {sellos.map((s) => (
             <div key={s.name} style={{

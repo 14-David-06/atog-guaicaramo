@@ -20,17 +20,27 @@ const items = [
 ];
 
 export default function HatoHeader({ onNavigate, active: _active, inverse: _inverse = true, forceLight = false }: HatoHeaderProps) {
-  const [scrolled, setScrolled]   = useState(false);
-  const [menuOpen, setMenuOpen]   = useState(false);
+  const [scrolled, setScrolled]       = useState(false);
+  const [menuOpen, setMenuOpen]       = useState(false);
+  const [narrowDesktop, setNarrow]    = useState(true);
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
   const isSmall  = isMobile || isTablet;
+  // Mantiene hamburger hasta 1200px para evitar overflow del nav
+  const showMobileNav = isSmall || narrowDesktop;
 
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", f);
     return () => window.removeEventListener("scroll", f);
+  }, []);
+
+  useEffect(() => {
+    const check = () => setNarrow(window.innerWidth < 1200);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   /* Cierra el drawer al navegar */
@@ -63,8 +73,8 @@ export default function HatoHeader({ onNavigate, active: _active, inverse: _inve
           <HatoWordmark height={logoHeight} inverse={logoInverse} />
         </a>
 
-        {/* Nav horizontal — desktop y tablet wide */}
-        {!isSmall && (
+        {/* Nav horizontal — ≥ 1200px */}
+        {!showMobileNav && (
           <nav style={{ display: "flex", alignItems: "center", gap: navGap, flexWrap: "nowrap" }}>
             {items.map((it) => (
               <a
@@ -87,8 +97,8 @@ export default function HatoHeader({ onNavigate, active: _active, inverse: _inve
           </nav>
         )}
 
-        {/* Botón hamburger — móvil y tablet */}
-        {isSmall && (
+        {/* Botón hamburger — < 1200px */}
+        {showMobileNav && (
           <button
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
@@ -121,8 +131,8 @@ export default function HatoHeader({ onNavigate, active: _active, inverse: _inve
         )}
       </div>
 
-      {/* Drawer móvil / tablet */}
-      {isSmall && (
+      {/* Drawer móvil / tablet / desktop estrecho < 1200px */}
+      {showMobileNav && (
         <nav
           aria-hidden={!menuOpen}
           style={{

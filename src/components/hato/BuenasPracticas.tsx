@@ -26,7 +26,7 @@ export default function BuenasPracticas() {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      padding: isMobile ? "60px 0" : "80px 0",
+      padding: isMobile ? "60px 0" : "80px 0 clamp(16px, 2vw, 28px)",
       overflow: "hidden",
     }}>
       <div style={{
@@ -61,7 +61,7 @@ export default function BuenasPracticas() {
         <div style={{
           display: "grid",
           gridTemplateColumns: gridCols,
-          gap: isMobile ? 48 : 22,
+          gap: isMobile ? 28 : isTablet ? 24 : 22,
           marginTop: 0,
           alignItems: "stretch",
         }}>
