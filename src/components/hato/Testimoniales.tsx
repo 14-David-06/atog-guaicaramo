@@ -30,7 +30,7 @@ const rawItems: TestimonialItem[] = [
     instagram: "https://www.instagram.com/hatoguaicaramo/",
   },
   {
-    date: "2026-02-18",
+    date: "2025-09-08",
     name: "Ezequiel Carvajal",
     grad: "linear-gradient(160deg,#d6c7a8,#a08756,#2a2418)",
     photo: "/assets/illustrations/Image (1).jpg",
@@ -43,14 +43,6 @@ const rawItems: TestimonialItem[] = [
     grad: "linear-gradient(160deg,#b8c0a0,#5a6850,#1a2120)",
     body: <>Tres ciclos con <strong>Nelore CIA</strong>. La precocidad cambió el negocio. Cerramos ciclos seis meses antes y la rentabilidad subió.</>,
     instagram: "https://www.instagram.com/hatoguaicaramo/",
-  },
-  {
-    date: "2025-09-08",
-    name: "Ezequiel Carvajal",
-    grad: "linear-gradient(160deg,#d6c7a8,#a08756,#2a2418)",
-    photo: "/assets/illustrations/Image (1).jpg",
-    body: <>Ezequiel activó un nuevo nivel de su hato. Adquirió un <strong>toro Nelore Ciclo Corto</strong>. Mira esas crías: pura potencia. ¿Usted qué espera para adquirir nuestra genética?</>,
-    instagram: "https://www.instagram.com/reel/DOZK5YNEaho/?igsh=N2t6cW1ybmRvNGho",
   },
   {
     date: "2025-06-30",

@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 const practices = [
-  { id: "riegos",   title: "Riegos",                       photo: "/assets/photography/bufalas-pastoreo.jpg",         anchor: "bp-02" },
-  { id: "vacuna",   title: "Vacunación y desparasitación", photo: "/assets/photography/testimonio-trabajador-bufalo.jpg", anchor: "bp-03" },
-  { id: "insem",    title: "Inseminación artificial",      photo: "/assets/photography/nelore-ejemplar.jpg",           anchor: "bp-04" },
-  { id: "pastoreo", title: "Pastoreo rotacional",          photo: "/assets/photography/bufalas-grupo-pastura.jpg",     anchor: "bp-01" },
+  { id: "riegos",   title: "Riegos",                       photo: "/assets/photography/riego-carrete.png",             anchor: "bp-02" },
+  { id: "vacuna",   title: "Vacunación y desparasitación", photo: "/assets/photography/vacunacion.PNG",                 anchor: "bp-03" },
+  { id: "insem",    title: "Inseminación artificial",      photo: "/assets/illustrations/inseminacion-embriones.png",  anchor: "bp-04" },
+  { id: "pastoreo", title: "Pastoreo rotacional",          photo: "/assets/photography/pastoreo-vaquero.png",          anchor: "bp-01" },
 ];
 
 export default function BuenasPracticas() {

@@ -150,7 +150,8 @@ export default function HatoHeader({ onNavigate, active: _active, inverse: _inve
                 key={it.id}
                 href={it.href || "#" + it.id}
                 onClick={(e) => {
-                  if (!it.href) e.preventDefault();
+                  if (it.href) { setMenuOpen(false); return; }
+                  e.preventDefault();
                   handleNav(it.id);
                 }}
                 style={{
