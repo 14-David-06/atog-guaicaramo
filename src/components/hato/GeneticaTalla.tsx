@@ -191,11 +191,9 @@ function GTGrowthCurve() {
 function GTBlendBar() {
   const [ref, seen] = useGTReveal();
   const grades = [
-    { n: "50%",  pct: 50,  name: "Nelore CIA × Brahman",      pure: false },
-    { n: "75%",  pct: 75,  name: "Nelore CIA × Brahman",      pure: false },
     { n: "87%",  pct: 87,  name: "Nelore CIA × Brahman",      pure: false },
-    { n: "100%", pct: 100, name: "Nelore CIA Performance",     pure: true  },
-    { n: "100%", pct: 100, name: "Nelore CIA CESUG",           pure: true  },
+    { n: "75%",  pct: 75,  name: "Nelore CIA × Brahman",      pure: false },
+    { n: "50%",  pct: 50,  name: "Nelore CIA × Brahman",      pure: false },
   ];
   return (
     <div ref={ref}>
@@ -385,13 +383,14 @@ function GTToros() {
         </GTReveal>
 
         {/* 01 · Nelore 100% */}
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.05fr", gap: "clamp(40px,5vw,88px)", alignItems: "center", marginBottom: "clamp(72px,9vw,128px)" }}>
-          <GTTilt src="/assets/photography/nelore-trio-caras.jpg" badge="Nelore 100%" objectPosition="center top" />
+        {/* Fila superior: foto + título y descripción */}
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.05fr", gap: "clamp(40px,5vw,88px)", alignItems: "center", marginBottom: "clamp(36px,4vw,56px)" }}>
+          <GTTilt src="/assets/photography/DSC_5196-2.jpg" badge="Nelore 100%" objectPosition="85% center" />
           <div>
             <GTReveal>
               <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 18 }}>
                 <span style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(40px,5vw,64px)", color: "var(--g-verde-300)", lineHeight: 1 }}>01</span>
-                <span style={{ fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--g-verde-600)" }}>Línea pura</span>
+                <span style={{ fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--g-verde-600)" }}>Línea 100 % del programa de mejoramiento genético CIA</span>
               </div>
             </GTReveal>
             <GTReveal delay={80}>
@@ -404,13 +403,47 @@ function GTToros() {
                 Animales que lideran en <strong style={{ color: "var(--g-verde-900)", fontWeight: 500 }}>precocidad sexual, de crecimiento y de terminación</strong> — los tres aspectos fundamentales para rentabilizar el negocio ganadero.
               </p>
             </GTReveal>
-            <GTReveal delay={220}>
-              <div style={{ background: "var(--g-verde-50)", border: "1px solid var(--g-verde-100)", borderRadius: 16, padding: "26px 28px 18px" }}>
-                <div style={{ fontFamily: "var(--g-font-sans)", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--g-verde-600)", marginBottom: 6 }}>Curva de precocidad</div>
-                <GTGrowthCurve />
+            <GTReveal delay={175}>
+              <div style={{ display: "grid", gap: 13 }}>
+                {[
+                  { name: "Nelore CIA Performance", pct: 100 },
+                  { name: "Nelore CIA CESUG",        pct: 100 },
+                ].map((g, i) => (
+                  <div key={g.name}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6, gap: 12 }}>
+                      <span style={{ fontFamily: "var(--g-font-sans)", fontSize: 13.5, color: "var(--g-verde-700)", fontWeight: 600, letterSpacing: "0.01em" }}>{g.name}</span>
+                      <span style={{ fontFamily: "var(--g-font-display)", fontSize: 22, color: "var(--g-verde-700)", whiteSpace: "nowrap" }}>100%</span>
+                    </div>
+                    <div style={{ height: 8, borderRadius: 8, background: "var(--g-verde-100)", overflow: "hidden" }}>
+                      <div style={{ height: "100%", borderRadius: 8, width: `${g.pct}%`, background: "linear-gradient(90deg, var(--g-verde-700), var(--g-verde-500))", transition: `width 1100ms cubic-bezier(.2,.7,.2,1) ${i * 140}ms` }} />
+                    </div>
+                  </div>
+                ))}
               </div>
             </GTReveal>
           </div>
+        </div>
+
+        {/* Fila inferior: logos + curva de precocidad */}
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "clamp(20px,3vw,36px)", marginBottom: "clamp(72px,9vw,128px)" }}>
+          <GTReveal delay={200}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 20, background: "var(--g-bg-elevated)", border: "1px solid var(--g-line)", borderRadius: 16, padding: "32px", textAlign: "center", height: "100%" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 32 }}>
+                <img src="/assets/certificados/ceip-trimmed.png" alt="CEIP" style={{ width: 100, height: 100, objectFit: "contain" }} />
+                <div style={{ width: 1, height: 60, background: "var(--g-line)" }} />
+                <img src="/assets/certificados/cesug-trimmed.png" alt="CESUG" style={{ width: 100, height: 100, objectFit: "contain" }} />
+              </div>
+              <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 14.5, lineHeight: 1.65, color: "var(--g-cafe-700)", margin: 0, maxWidth: "42ch", textWrap: "pretty" }}>
+                El <strong style={{ color: "var(--g-verde-900)", fontWeight: 500 }}>Certificado de Superioridad Genética CESUG</strong> le garantiza que los ejemplares corresponden al <strong style={{ color: "var(--g-verde-700)", fontWeight: 500 }}>24.5 % superior</strong> de todos los animales nacidos y evaluados en una misma safra de Brasil, Colombia y Paraguay.
+              </p>
+            </div>
+          </GTReveal>
+          <GTReveal delay={220}>
+            <div style={{ background: "var(--g-verde-50)", border: "1px solid var(--g-verde-100)", borderRadius: 16, padding: "26px 28px 18px", height: "100%" }}>
+              <div style={{ fontFamily: "var(--g-font-sans)", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--g-verde-600)", marginBottom: 6 }}>Curva de precocidad</div>
+              <GTGrowthCurve />
+            </div>
+          </GTReveal>
         </div>
 
         {/* 02 · Cruces Nelore × Brahman */}
@@ -434,12 +467,13 @@ function GTToros() {
             </GTReveal>
             <GTReveal delay={220}><GTBlendBar /></GTReveal>
           </div>
-          <GTTilt src="/assets/photography/nelore-ternero.jpg" badge="Nelore × Brahman" objectPosition="40% 60%" />
+          <GTTilt src="/assets/photography/DSCN1132.jpg" badge="Nelore × Brahman" objectPosition="70% center" />
         </div>
       </div>
     </section>
   );
 }
+
 
 /* =====================================================================
    PORTAFOLIO
@@ -453,6 +487,7 @@ function GTPortafolio() {
     { icon: "git-merge", k: "Hembras preñadas Nelore CIA × Brahman", d: "Grados 50%, 75% y 87% CIA según su transición." },
     { icon: "beef",      k: "Machos de ceba y levante",              d: "Nelore CIA × Brahman 50%, 75% y 87% CIA." },
     { icon: "dna",       k: "Embriones y preñeces",                  d: "Genética de alto valor, directo al hato." },
+    { icon: "award",     k: "Toros Nelore 100%",                     d: "Líderes en precocidad sexual, de crecimiento y de terminación — aspectos fundamentales para rentabilizar los negocios ganaderos." },
   ];
   return (
     <section style={{ background: "var(--g-verde-50)", padding: pad, overflow: "hidden" }}>
@@ -474,24 +509,26 @@ function GTPortafolio() {
           </GTReveal>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 20 }}>
-          {items.map((it, i) => <GTPortCard key={it.k} {...it} n={i + 1} delay={i * 100} />)}
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: 20 }}>
+          {items.map((it, i) => <GTPortCard key={it.k} {...it} n={i + 1} delay={i * 100} wide={!isMobile && i === items.length - 1} />)}
         </div>
       </div>
     </section>
   );
 }
 
-function GTPortCard({ icon, k, d, n: _n, delay }: { icon: string; k: string; d: string; n: number; delay: number }) {
+function GTPortCard({ icon, k, d, n: _n, delay, wide = false }: { icon: string; k: string; d: string; n: number; delay: number; wide?: boolean }) {
   const [hover, setHover] = useState(false);
   return (
-    <GTReveal delay={delay}>
-      <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ position: "relative", background: "var(--g-bg-elevated)", border: "1px solid var(--g-verde-100)", borderRadius: 18, padding: "30px 28px 34px", height: "100%", transform: hover ? "translateY(-6px)" : "none", boxShadow: hover ? "0 20px 44px -14px rgba(26,33,32,0.24)" : "0 6px 18px -10px rgba(26,33,32,0.12)", transition: "transform 300ms var(--g-ease-out), box-shadow 300ms var(--g-ease-out)", overflow: "hidden" }}>
-        <span style={{ display: "inline-flex", width: 48, height: 48, borderRadius: 12, background: "var(--g-verde-500)", color: "var(--g-beige)", alignItems: "center", justifyContent: "center", marginBottom: 22 }}>
+    <GTReveal delay={delay} style={wide ? { gridColumn: "1 / -1" } : undefined}>
+      <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={{ position: "relative", background: "var(--g-bg-elevated)", border: "1px solid var(--g-verde-100)", borderRadius: 18, padding: "30px 28px 34px", height: "100%", transform: hover ? "translateY(-6px)" : "none", boxShadow: hover ? "0 20px 44px -14px rgba(26,33,32,0.24)" : "0 6px 18px -10px rgba(26,33,32,0.12)", transition: "transform 300ms var(--g-ease-out), box-shadow 300ms var(--g-ease-out)", overflow: "hidden", display: wide ? "flex" : "block", alignItems: wide ? "center" : undefined, gap: wide ? 32 : undefined }}>
+        <span style={{ display: "inline-flex", width: 48, height: 48, borderRadius: 12, background: "var(--g-verde-500)", color: "var(--g-beige)", alignItems: "center", justifyContent: "center", marginBottom: wide ? 0 : 22, flexShrink: 0 }}>
           <HatoIcon name={icon} size={23} />
         </span>
-        <div style={{ position: "relative", fontFamily: "var(--g-font-display)", fontSize: 23, lineHeight: 1.14, color: "var(--g-verde-900)", marginBottom: 10, maxWidth: "20ch" }}>{k}</div>
-        <div style={{ position: "relative", fontFamily: "var(--g-font-sans)", fontSize: 14.5, lineHeight: 1.55, color: "var(--g-cafe-700)", textWrap: "pretty" }}>{d}</div>
+        <div style={{ flex: wide ? 1 : undefined }}>
+          <div style={{ position: "relative", fontFamily: "var(--g-font-display)", fontSize: 23, lineHeight: 1.14, color: "var(--g-verde-900)", marginBottom: 10, maxWidth: wide ? "none" : "20ch" }}>{k}</div>
+          <div style={{ position: "relative", fontFamily: "var(--g-font-sans)", fontSize: 14.5, lineHeight: 1.55, color: "var(--g-cafe-700)", textWrap: "pretty" }}>{d}</div>
+        </div>
       </div>
     </GTReveal>
   );
@@ -563,7 +600,9 @@ function GTBiotec() {
         </div>
 
         <GTReveal delay={120}>
-          <div style={{ display: "block", width: "100%", height: "clamp(260px, 30vw, 400px)", marginTop: "clamp(48px,6vw,80px)", border: "1px solid rgba(249,246,232,0.18)", borderRadius: 16, background: "rgba(249,246,232,0.04)" }} />
+          <div style={{ width: "100%", height: "clamp(360px, 45vw, 580px)", marginTop: "clamp(32px,4vw,52px)", border: "1px solid rgba(249,246,232,0.18)", borderRadius: 16, overflow: "hidden" }}>
+            <img src="/assets/certificados/laboratorio.png" alt="Laboratorio de biotecnología" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "95% 70%" }} />
+          </div>
         </GTReveal>
       </div>
     </section>

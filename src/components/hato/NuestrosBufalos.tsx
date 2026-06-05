@@ -293,7 +293,7 @@ function BufalosTrabajo() {
   );
 }
 
-function NBTiltPhoto({ src, badge, objectPosition = "center" }: { src: string; badge: string; objectPosition?: string }) {
+function NBTiltPhoto({ src, badge, objectPosition = "center", aspectRatio = "4 / 5" }: { src: string; badge: string; objectPosition?: string; aspectRatio?: string }) {
   const [ref, seen] = useNBReveal();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const bp = useBreakpoint();
@@ -303,7 +303,7 @@ function NBTiltPhoto({ src, badge, objectPosition = "center" }: { src: string; b
     setTilt({ x: (e.clientX - r.left) / r.width - 0.5, y: (e.clientY - r.top) / r.height - 0.5 });
   };
   return (
-    <div ref={ref} onMouseMove={onMove} onMouseLeave={() => setTilt({ x: 0, y: 0 })} style={{ position: "relative", aspectRatio: "4 / 5", opacity: seen ? 1 : 0, transform: `translateY(${seen ? 0 : 26}px) perspective(1200px) rotateX(${tilt.y * -4}deg) rotateY(${tilt.x * 4}deg)`, transition: "opacity 900ms var(--g-ease-soft), transform 500ms var(--g-ease-soft)", transformStyle: "preserve-3d" }}>
+    <div ref={ref} onMouseMove={onMove} onMouseLeave={() => setTilt({ x: 0, y: 0 })} style={{ position: "relative", aspectRatio, opacity: seen ? 1 : 0, transform: `translateY(${seen ? 0 : 26}px) perspective(1200px) rotateX(${tilt.y * -4}deg) rotateY(${tilt.x * 4}deg)`, transition: "opacity 900ms var(--g-ease-soft), transform 500ms var(--g-ease-soft)", transformStyle: "preserve-3d" }}>
       <div style={{ position: "absolute", inset: 0, borderRadius: 20, overflow: "hidden", background: "var(--g-stone-100)", boxShadow: "0 30px 80px rgba(8,16,26,0.22)" }}>
         <img src={src} alt={badge} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition, transform: `scale(1.07) translate(${tilt.x * -10}px, ${tilt.y * -10}px)`, transition: "transform 600ms var(--g-ease-soft)" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 55%, rgba(8,16,26,0.5) 100%)" }} />
@@ -337,7 +337,7 @@ function BufalasLeche() {
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: `0 ${hPad}` }}>
 
         {/* ── Fila superior: heading | foto ── */}
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.1fr 1fr", gap: "clamp(40px,5vw,72px)", alignItems: "center", marginBottom: "clamp(32px,4vw,52px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.3fr", gap: "clamp(40px,5vw,72px)", alignItems: "center", marginBottom: "clamp(32px,4vw,52px)" }}>
           <div>
             <NBReveal>
               <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 18 }}>
@@ -357,7 +357,7 @@ function BufalasLeche() {
             </NBReveal>
           </div>
 
-          <NBTiltPhoto src="/assets/illustrations/lecheria.webp" badge="Búfalas para leche" objectPosition="center" />
+          <NBTiltPhoto src="/assets/illustrations/lecheria.webp" badge="Búfalas para leche" objectPosition="center" aspectRatio="5 / 4" />
         </div>
 
         {/* ── Fila inferior: estadísticas animadas ── */}

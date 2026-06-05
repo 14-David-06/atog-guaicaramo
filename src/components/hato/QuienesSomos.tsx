@@ -54,17 +54,14 @@ export default function QuienesSomos() {
                   alt="Hato Guaicaramo — sabana llanera"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
-                <a
-                  href="https://www.instagram.com/reel/DMIYlnxRTdh/?igsh=cThsdWt5dnd4Nnhj"
-                  target="_blank" rel="noopener noreferrer"
+                <div
                   style={{
                     position: "absolute", left: 20, bottom: 20,
-                    textDecoration: "none",
                     animation: "qsFloat 5s ease-in-out infinite",
                   }}
                 >
-                  <VideoCtaButton />
-                </a>
+                  <VideoCtaButton href="https://www.instagram.com/reel/DMIYlnxRTdh/?igsh=cThsdWt5dnd4Nnhj" />
+                </div>
               </div>
             </div>
 
@@ -96,7 +93,7 @@ export default function QuienesSomos() {
                 color: "var(--g-fg-muted)", maxWidth: "52ch", textWrap: "pretty",
               }}>
                 Empresa ganadera especializada en genética de talla mundial y sistemas
-                eficientes de producción animal para el trópico colombiano.
+                eficientes de producción bovina para el trópico colombiano.
               </p>
             </div>
           </div>
@@ -162,9 +159,7 @@ export default function QuienesSomos() {
                 fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6,
                 color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty",
               }}>
-                Nuestro propósito es claro: contribuir con el desarrollo del trópico,
-                produciendo más kilos de carne y litros de leche por hectárea, con un
-                enfoque social, ambiental y económico.
+                Nuestro propósito: Desarrollar el potencial del trópico mediante una ganadería sostenible y productiva.
               </p>
               <p style={{
                 fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6,
@@ -374,9 +369,15 @@ export default function QuienesSomos() {
 }
 
 /* ---------- VideoCtaButton ---------- */
-function VideoCtaButton() {
+function VideoCtaButton({ href = "https://www.instagram.com/reel/C2R6YzYOxnb/?igsh=MXU1N2VhYXU4Z25pcA==" }: { href?: string }) {
   const [h, setH] = useState(false);
   return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ textDecoration: "none" }}
+    >
     <span
       onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}
       style={{
@@ -424,6 +425,7 @@ function VideoCtaButton() {
         }}>Ver video</span>
       </span>
     </span>
+    </a>
   );
 }
 

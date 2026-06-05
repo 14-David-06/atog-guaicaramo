@@ -18,14 +18,14 @@ const HERO_SLIDES: HeroSlide[] = [
   {
     photo: "/assets/photography/hero-nelore-grupo.jpg",
     label: "Nelore CIA · ganado para el trópico",
-    copy: <>Somos una empresa ganadera <br />especializada en{" "}
+    copy: <>Somos una empresa ganadera especializada en{" "}
       <em style={accent}>genética de talla mundial</em>
-      {" "}y en la creación de sistemas eficientes de producción animal para el trópico.</>,
+      {" "}y en la creación de sistemas de producción bovina para el trópico.</>,
   },
   {
     photo: "/assets/photography/hero-nelore-llanero.jpg",
     label: "El campo y la ciencia unidos",
-    copy: <>En Hato Guaicaramo no trabajamos el ganado como una especie más.<br />
+    copy: <>En Hato Guaicaramo no trabajamos los vacunos y búfalos como unas especies más.<br />
       <em style={accent}>Lo integramos como un sistema productivo real.</em></>,
   },
   {
