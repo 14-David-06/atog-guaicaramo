@@ -60,7 +60,7 @@ export default function QuienesSomos() {
                     animation: "qsFloat 5s ease-in-out infinite",
                   }}
                 >
-                  <VideoCtaButton href="https://www.instagram.com/reel/DMIYlnxRTdh/?igsh=cThsdWt5dnd4Nnhj" />
+                  <VideoCtaButton href="https://www.instagram.com/reel/C2R6YzYOxnb/?igsh=MXU1N2VhYXU4Z25pcA==" />
                 </div>
               </div>
             </div>

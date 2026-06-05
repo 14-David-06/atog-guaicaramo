@@ -400,7 +400,7 @@ function GTToros() {
             </GTReveal>
             <GTReveal delay={160}>
               <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 17, lineHeight: 1.7, color: "var(--g-cafe-700)", margin: "0 0 30px", maxWidth: "52ch", textWrap: "pretty" }}>
-                Animales que lideran en <strong style={{ color: "var(--g-verde-900)", fontWeight: 500 }}>precocidad sexual, de crecimiento y de terminación</strong> — los tres aspectos fundamentales para rentabilizar el negocio ganadero.
+                Animales que lideran en <strong style={{ color: "var(--g-verde-900)", fontWeight: 500 }}>precocidad sexual, precocidad de crecimiento y precocidad de terminación</strong> — los tres aspectos fundamentales para rentabilizar el negocio ganadero.
               </p>
             </GTReveal>
             <GTReveal delay={175}>
