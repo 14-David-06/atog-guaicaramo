@@ -467,7 +467,7 @@ function GTToros() {
             </GTReveal>
             <GTReveal delay={220}><GTBlendBar /></GTReveal>
           </div>
-          <GTTilt src="/assets/photography/DSCN1132.jpg" badge="Nelore × Brahman" objectPosition="70% center" />
+          <GTTilt src="/assets/photography/DSCN113112.jpg" badge="Nelore × Brahman" objectPosition="70% center" />
         </div>
       </div>
     </section>
