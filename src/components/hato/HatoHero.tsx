@@ -63,7 +63,7 @@ export default function HatoHero() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const hPad = isMobile ? 20 : isTablet ? 32 : 56;
+  const hPad = isMobile ? "24px" : isTablet ? "40px" : "clamp(72px, 7.5vw, 160px)";
   const vPad = isLandscape ? 36 : isMobile ? 80 : 110;
 
   return (
@@ -107,7 +107,7 @@ export default function HatoHero() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "flex-start",
-        padding: `${vPad}px ${hPad}px`,
+        padding: `${vPad}px ${hPad}`,
       }}>
         <div style={{ maxWidth: isMobile ? "100%" : 760 }}>
           <h1 style={{
