@@ -626,41 +626,26 @@ p, li, span, label, td, th {
 }
 
 /* ────────────────────────────────────────────────────────────
-   FASE 7 — ULTRA ANCHO / 4K (≥ 2560px) · Opción A
-   max-width: 2000px centrado · padding: 120px
-   El contenido NO ocupa todo el ancho — queda enmarcado.
+   FASE 7 — ULTRA ANCHO / 4K (≥ 2560px)
+   Secciones y fondos ocupan todo el ancho del monitor.
+   El contenido interno ya está centrado con maxWidth 1440 inline.
    ──────────────────────────────────────────────────────────── */
 @media (min-width: 2560px) {
   :root {
-    --g-rsp-pad-inline:    120px;
+    --g-rsp-pad-inline:    80px;
     --g-rsp-gap:           48px;
     --g-rsp-section-vpad:  128px;
-    --g-rsp-card-max:      2000px;
+    --g-rsp-card-max:      1920px;
   }
 
-  /* .g-wrap respeta el nuevo techo de 2000px */
+  /* .g-wrap respeta el nuevo techo */
   .g-wrap {
-    max-width: 2000px;
-    padding-inline: 120px;
+    max-width: 1920px;
+    padding-inline: 80px;
   }
 
   /* Tipografía ligeramente mayor para monitores grandes vistos de lejos */
   html {
-    font-size: 112%;
+    font-size: 110%;
   }
-
-  /* Borde visual que enmarca el contenido (opcional pero elegante) */
-  body::before,
-  body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: calc((100vw - 2000px) / 2);
-    background: var(--g-bg);
-    z-index: 9999;
-    pointer-events: none;
-  }
-  body::before { left: 0; }
-  body::after  { right: 0; }
 }

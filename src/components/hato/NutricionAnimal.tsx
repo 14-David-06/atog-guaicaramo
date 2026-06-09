@@ -1017,7 +1017,7 @@ function PastosBrachiaria() {
       <div style={{
         position: "relative", width: "100%",
         marginTop: 0,
-        aspectRatio: "24 / 9", maxHeight: 460, overflow: "hidden",
+        height: "clamp(320px, 28vw, 560px)", overflow: "hidden",
       }}>
         <img
           src="/assets/illustrations/pastoo.png"
@@ -1026,7 +1026,7 @@ function PastosBrachiaria() {
           style={{
             position: "absolute", inset: 0,
             width: "100%", height: "100%",
-            objectFit: "cover", objectPosition: "center 35%",
+            objectFit: "cover", objectPosition: "center 55%",
           }}
         />
         {/* Gradiente superior: funde la sección oscura con la imagen */}
