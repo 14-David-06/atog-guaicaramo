@@ -491,11 +491,11 @@ function GTPortafolio() {
   const contentMax = isWide ? 1900 : 1440;
   const pad = "clamp(56px,7vw,96px) 0";
   const items = [
-    { icon: "venus",     k: "Hembras preñadas Nelore CIA",           d: "Reposición de línea pura, lista para el sistema." },
+    { icon: "venus",     k: "Hembras Nelore CIA y CESUG",            d: "Reposición de línea pura, lista para el sistema." },
     { icon: "git-merge", k: "Hembras preñadas Nelore CIA × Brahman", d: "Grados 50%, 75% y 87% CIA según su transición." },
     { icon: "beef",      k: "Machos de ceba y levante",              d: "Nelore CIA × Brahman 50%, 75% y 87% CIA." },
     { icon: "dna",       k: "Embriones y preñeces",                  d: "Genética de alto valor, directo al hato." },
-    { icon: "award",     k: "Toros Nelore 100%",                     d: "Líderes en precocidad sexual, de crecimiento y de terminación — aspectos fundamentales para rentabilizar los negocios ganaderos." },
+    { icon: "award",     k: "Toros Nelore CIA y CESUG",              d: "Líderes en precocidad sexual, de crecimiento y de terminación — aspectos fundamentales para rentabilizar los negocios ganaderos." },
   ];
   return (
     <section style={{ background: "var(--g-verde-50)", padding: pad, overflow: "hidden" }}>

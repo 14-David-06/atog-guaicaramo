@@ -155,7 +155,7 @@ export default function QuienesSomos() {
                 color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty",
               }}>
                 Somos una empresa ganadera especializada en <strong style={{ color: "var(--g-petroleo-900)" }}>genética de talla mundial</strong> y
-                en la creación de sistemas eficientes de producción animal para el trópico.
+                en la creación de sistemas eficientes de producción bovina para el trópico.
               </p>
               <p style={{
                 fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6,
