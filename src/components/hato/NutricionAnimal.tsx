@@ -94,22 +94,28 @@ function NutricionHero() {
     const v = videoRef.current;
     if (!v) return;
 
+    // iOS Safari no serializa el atributo muted desde SSR — forzarlo por JS
+    v.muted = true;
+    v.setAttribute("playsinline", "");
+    v.setAttribute("webkit-playsinline", "");
+    v.load();
+
     const tryPlay = () => {
-      if (!v.paused) return;           // ya está reproduciendo, no hacer nada
-      const p = v.play();
-      if (p) p.catch(() => {});        // silenciar AbortError / NotAllowedError
+      if (!v.paused) return;
+      v.play().catch(() => {
+        // Autoplay bloqueado: reintentar en el primer toque del usuario
+        const onTouch = () => { v.play().catch(() => {}); };
+        document.addEventListener("touchstart", onTouch, { once: true });
+        document.addEventListener("click", onTouch, { once: true });
+      });
     };
 
-    // Si el vídeo ya está en caché y listo (readyState ≥ HAVE_FUTURE_DATA)
-    // canplay no volverá a dispararse — forzar play inmediatamente
     if (v.readyState >= 3) {
       tryPlay();
     } else {
-      // Primera carga / recarga: esperar a que haya datos suficientes
       v.addEventListener("canplay", tryPlay, { once: true });
     }
 
-    // Reanudar al volver de otra pestaña
     const onVisibility = () => { if (!document.hidden) tryPlay(); };
     document.addEventListener("visibilitychange", onVisibility);
 

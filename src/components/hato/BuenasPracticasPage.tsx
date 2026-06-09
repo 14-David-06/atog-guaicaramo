@@ -239,11 +239,23 @@ function BPHero() {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
+
+    // iOS Safari no serializa el atributo muted desde SSR — forzarlo por JS
+    v.muted = true;
+    v.setAttribute("playsinline", "");
+    v.setAttribute("webkit-playsinline", "");
+    v.load();
+
     const tryPlay = () => {
       if (!v.paused) return;
-      const p = v.play();
-      if (p) p.catch(() => {});
+      v.play().catch(() => {
+        // Autoplay bloqueado: reintentar en el primer toque del usuario
+        const onTouch = () => { v.play().catch(() => {}); };
+        document.addEventListener("touchstart", onTouch, { once: true });
+        document.addEventListener("click", onTouch, { once: true });
+      });
     };
+
     if (v.readyState >= 3) { tryPlay(); } else { v.addEventListener("canplay", tryPlay, { once: true }); }
     const onVisibility = () => { if (!document.hidden) tryPlay(); };
     document.addEventListener("visibilitychange", onVisibility);
