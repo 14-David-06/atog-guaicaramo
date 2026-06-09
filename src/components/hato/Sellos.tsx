@@ -15,7 +15,9 @@ export default function Sellos() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
 
+  const contentMax = isWide ? 1900 : 1440;
   const secPad   = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
   const gridCols = isMobile ? "repeat(2, 1fr)" : isTablet ? "repeat(3, 1fr)" : "repeat(5, 1fr)";
 
@@ -32,7 +34,7 @@ export default function Sellos() {
         }
       `}</style>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: secPad }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: secPad }}>
         <SectionTitle color="var(--g-verde-500)">Nuestros sellos de excelencia</SectionTitle>
         <div style={{
           display: "grid",

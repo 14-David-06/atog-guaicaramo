@@ -103,6 +103,8 @@ export default function NuestrosBufalos() {
 function BufHero() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const pad = isMobile ? "64px 24px 40px" : "72px 56px 40px";
   return (
     <section style={{ position: "relative", minHeight: "100vh", background: "var(--g-petroleo-900)", color: "var(--g-beige)", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -110,7 +112,7 @@ function BufHero() {
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(8,16,26,0.78) 0%, rgba(8,16,26,0.42) 38%, rgba(8,16,26,0.72) 78%, rgba(8,16,26,0.96) 100%)" }} />
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 78% 30%, rgba(61,79,114,0.30), transparent 52%)" }} />
 
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", width: "100%", padding: pad, flex: "1 0 auto", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", width: "100%", padding: pad, flex: "1 0 auto", display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <NBReveal>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 26, fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase", color: "var(--g-petroleo-200)" }}>
             <span style={{ width: 40, height: 1, background: "var(--g-petroleo-200)" }} />
@@ -144,6 +146,8 @@ function BufHero() {
 function SistemaIntro() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const pad = isMobile ? "clamp(40px,6vw,72px) 24px" : "clamp(40px,6vw,72px) 56px";
   const pillars = [
     { icon: "dna",        k: "Genética",  d: "que funciona" },
@@ -153,8 +157,8 @@ function SistemaIntro() {
   return (
     <section style={{ background: "var(--g-bg)", padding: `clamp(40px,6vw,72px) 0`, position: "relative", overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(90deg, transparent calc(50% - .5px), rgba(61,79,114,0.05) calc(50% - .5px), rgba(61,79,114,0.05) calc(50% + .5px), transparent calc(50% + .5px))", pointerEvents: "none" }} />
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: pad }}>
-        <div style={{ maxWidth: 1080 }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", padding: pad }}>
+        <div style={{ maxWidth: isWide ? 1420 : 1080 }}>
           <NBReveal>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 30, fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--g-petroleo-700)" }}>
               <span style={{ width: 28, height: 1, background: "var(--g-petroleo-700)" }} />
@@ -196,6 +200,8 @@ function PilaresIndex() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const pad = isMobile ? "clamp(54px,7vw,90px) 24px" : "clamp(54px,7vw,90px) 56px";
   const items = [
     { n: "01", t: "Búfalos de trabajo", d: "Fuerza · resistencia · docilidad" },
@@ -204,7 +210,7 @@ function PilaresIndex() {
   ];
   return (
     <section style={{ background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(36px,5vw,60px) 0` }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: pad }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: pad }}>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 0 }}>
           {items.map((it, i) => (
             <NBReveal key={it.n} delay={i * 110} style={{
@@ -255,6 +261,8 @@ function BufalosTrabajo() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const hPad = isMobile ? "24px" : isTablet ? "clamp(32px,4vw,56px)" : "clamp(56px,6vw,96px)";
   const traits = [
     { k: "Fuerza",      d: "Tracción y capacidad operativa",       pct: 92 },
@@ -263,7 +271,7 @@ function BufalosTrabajo() {
   ];
   return (
     <section style={{ background: "var(--g-bg)", padding: `clamp(64px,8vw,112px) 0`, overflow: "hidden" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: `0 ${hPad}` }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: `0 ${hPad}` }}>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.1fr", gap: "clamp(40px,5vw,88px)", alignItems: "center" }}>
           <NBTiltPhoto src="/assets/photography/bufalo-trabajo-palma.jpg" badge="Búfalos de trabajo" objectPosition="center" />
           <div>
@@ -323,6 +331,8 @@ function BufalasLeche() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const hPad = isMobile ? "24px" : isTablet ? "clamp(32px,4vw,56px)" : "clamp(56px,6vw,96px)";
 
   const statRows: { to: number; suffix?: string; sep?: boolean; k: string; d: string }[] = [
@@ -334,7 +344,7 @@ function BufalasLeche() {
 
   return (
     <section style={{ background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(64px,8vw,112px) 0`, overflow: "hidden" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: `0 ${hPad}` }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: `0 ${hPad}` }}>
 
         {/* ── Fila superior: heading | foto ── */}
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.3fr", gap: "clamp(40px,5vw,72px)", alignItems: "center", marginBottom: "clamp(32px,4vw,52px)" }}>
@@ -397,6 +407,8 @@ function BufalosCarne() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const hPad = isMobile ? "24px" : isTablet ? "clamp(32px,4vw,56px)" : "clamp(56px,6vw,96px)";
   const linea = [
     { k: "Machos de levante",   d: "Crecimiento eficiente bajo manejo planificado.",           pct: 88 },
@@ -405,7 +417,7 @@ function BufalosCarne() {
   ];
   return (
     <section style={{ background: "var(--g-bg)", padding: `clamp(64px,8vw,112px) 0`, overflow: "hidden" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: `0 ${hPad}` }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: `0 ${hPad}` }}>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1.1fr", gap: "clamp(40px,5vw,88px)", alignItems: "center" }}>
           <NBTiltPhoto src="/assets/photography/bufalas-grupo-pastura.jpg" badge="Búfalos para carne" objectPosition="center" />
           <div>
@@ -451,11 +463,13 @@ function BufalosCarne() {
 function BufalosCTA() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1300 : 1000;
   const pad = isMobile ? "clamp(48px,6vw,80px) 24px" : "clamp(48px,6vw,80px) 56px";
   return (
     <section style={{ position: "relative", background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(48px,6vw,80px) 0`, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 120%, rgba(61,79,114,0.32), transparent 60%)" }} />
-      <div style={{ position: "relative", maxWidth: 1000, margin: "0 auto", padding: pad, textAlign: "center" }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", padding: pad, textAlign: "center" }}>
         <NBRiseLine text="Aquí la producción se construye." color="var(--g-beige)" size="clamp(32px,4.6vw,68px)" />
         <NBReveal delay={260}>
           <div style={{ marginTop: 38, display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>

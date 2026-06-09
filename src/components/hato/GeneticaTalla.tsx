@@ -266,6 +266,8 @@ export default function GeneticaTalla() {
 function GTHero() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const pad = isMobile ? "64px 24px 40px" : "72px 56px 56px";
   return (
     <section style={{ position: "relative", minHeight: "100vh", background: "var(--g-verde-900)", color: "var(--g-beige)", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -273,7 +275,7 @@ function GTHero() {
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(26,33,32,0.74) 0%, rgba(26,33,32,0.34) 36%, rgba(26,33,32,0.66) 74%, rgba(26,33,32,0.95) 100%)" }} />
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 80% 26%, rgba(98,119,97,0.40), transparent 54%)" }} />
 
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", width: "100%", padding: pad, flex: "1 0 auto", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", width: "100%", padding: pad, flex: "1 0 auto", display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <GTReveal>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 26, fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase", color: "var(--g-verde-300)" }}>
             <span style={{ width: 40, height: 1, background: "var(--g-verde-300)" }} />
@@ -304,6 +306,8 @@ function GTHero() {
 function GTEnfoque() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const pad = "clamp(48px,7vw,96px) 0 clamp(28px,4vw,44px)";
   const pillars = [
     { icon: "timer-reset", k: "Ciclos más cortos",       d: "Reducimos el tiempo de producción en cada etapa." },
@@ -313,8 +317,8 @@ function GTEnfoque() {
   return (
     <section style={{ background: "var(--g-bg)", padding: pad, position: "relative", overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(90deg, transparent calc(50% - .5px), rgba(98,119,97,0.06) calc(50% - .5px), rgba(98,119,97,0.06) calc(50% + .5px), transparent calc(50% + .5px))", pointerEvents: "none" }} />
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
-        <div style={{ maxWidth: 1100 }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
+        <div style={{ maxWidth: isWide ? 1450 : 1100 }}>
           <GTReveal>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 30, fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--g-verde-600)" }}>
               <span style={{ width: 28, height: 1, background: "var(--g-verde-600)" }} />
@@ -371,10 +375,12 @@ function GTEnfoque() {
 function GTToros() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const pad = "clamp(32px,4vw,52px) 0 clamp(56px,7vw,96px)";
   return (
     <section style={{ background: "var(--g-bg)", padding: pad, overflow: "hidden" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
         <GTReveal>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: "clamp(40px,5vw,72px)", fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--g-verde-600)" }}>
             <span style={{ width: 28, height: 1, background: "var(--g-verde-600)" }} />
@@ -481,6 +487,8 @@ function GTToros() {
 function GTPortafolio() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const pad = "clamp(56px,7vw,96px) 0";
   const items = [
     { icon: "venus",     k: "Hembras preñadas Nelore CIA",           d: "Reposición de línea pura, lista para el sistema." },
@@ -491,7 +499,7 @@ function GTPortafolio() {
   ];
   return (
     <section style={{ background: "var(--g-verde-50)", padding: pad, overflow: "hidden" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "clamp(32px,5vw,72px)", alignItems: "end", marginBottom: "clamp(44px,5vw,68px)" }}>
           <div>
             <GTReveal>
@@ -540,6 +548,8 @@ function GTPortCard({ icon, k, d, n: _n, delay, wide = false }: { icon: string; 
 function GTBiotec() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const pad = "clamp(60px,7vw,100px) 0";
   const logica = ["Reducir ciclos", "Mejorar rendimiento", "Aumentar productividad", "Sostener el crecimiento"];
   return (
@@ -550,7 +560,7 @@ function GTBiotec() {
         <GTHelix />
       </div>
 
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
         <GTReveal>
           <div style={{ display: "flex", alignItems: "baseline", gap: 16, marginBottom: 24 }}>
             <span style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(40px,5vw,64px)", color: "var(--g-verde-300)", lineHeight: 1 }}>03</span>
@@ -558,7 +568,7 @@ function GTBiotec() {
           </div>
         </GTReveal>
 
-        <div style={{ maxWidth: 1040 }}>
+        <div style={{ maxWidth: isWide ? 1370 : 1040 }}>
           <GTRise text="Genética de alto valor," size="clamp(32px,5.2vw,80px)" />
           <GTRise text="directo al sistema." delay={120} color="var(--g-verde-300)" italic size="clamp(32px,5.2vw,80px)" />
         </div>
@@ -615,6 +625,7 @@ function GTBiotec() {
 function GTManifest() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
   const pad = "clamp(96px,13vw,170px) 0";
   return (
     <section style={{ position: "relative", background: "var(--g-verde-800)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
@@ -622,7 +633,7 @@ function GTManifest() {
         <GTHelix stroke="rgba(194,202,189,0.4)" />
       </div>
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 120%, rgba(98,119,97,0.4), transparent 58%)" }} />
-      <div style={{ position: "relative", maxWidth: 1100, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px", textAlign: "center" }}>
+      <div style={{ position: "relative", maxWidth: isWide ? 1450 : 1100, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px", textAlign: "center" }}>
         <GTReveal>
           <p style={{ fontFamily: "var(--g-font-sans)", fontSize: "clamp(15px,1.4vw,18px)", letterSpacing: "0.04em", color: "var(--g-verde-300)", margin: "0 0 18px" }}>Aquí la genética no se compra.</p>
         </GTReveal>
@@ -640,11 +651,13 @@ function GTManifest() {
 function GTCTA() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1300 : 1000;
   const pad = "clamp(48px,6vw,80px) 0";
   return (
     <section style={{ position: "relative", background: "var(--g-verde-900)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 120%, rgba(98,119,97,0.3), transparent 60%)" }} />
-      <div style={{ position: "relative", maxWidth: 1000, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px", textAlign: "center" }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px", textAlign: "center" }}>
         <GTRise text="Genética que mueve el sistema." color="var(--g-beige)" size="clamp(30px,4.4vw,64px)" />
         <GTReveal delay={260}>
           <div style={{ marginTop: 38, display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>

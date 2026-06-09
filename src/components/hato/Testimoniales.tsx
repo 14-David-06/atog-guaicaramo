@@ -69,7 +69,9 @@ export default function Testimoniales() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
 
+  const contentMax = isWide ? 1900 : 1440;
   const secPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
   const arrowOffset = isTablet ? -16 : -32;
 
@@ -134,7 +136,7 @@ export default function Testimoniales() {
 
   return (
     <section style={{ background: "var(--g-verde-400)", padding: "56px 0" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: secPad }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: secPad }}>
 
         <div style={{ textAlign: "center" }}>
           <SectionTitle color="var(--g-beige)" align="center">Ganaderos que van ganando</SectionTitle>

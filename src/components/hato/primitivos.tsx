@@ -174,9 +174,11 @@ interface SectionProps {
   pad?: string;
 }
 export function Section({ children, bg = "var(--g-bg)", id, pad = "96px 0" }: SectionProps) {
+  const isWide = useBreakpoint() === "wide";
+  const contentMax = isWide ? 1700 : 1280;
   return (
     <section id={id} style={{ background: bg, padding: pad }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 48px" }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: "0 48px" }}>
         {children}
       </div>
     </section>

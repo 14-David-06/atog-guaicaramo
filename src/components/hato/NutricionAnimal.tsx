@@ -230,6 +230,8 @@ function FabricaIntro() {
   const bp       = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const hPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
 
   return (
@@ -244,7 +246,7 @@ function FabricaIntro() {
         pointerEvents: "none",
       }} />
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: hPad, position: "relative" }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: hPad, position: "relative" }}>
         <div style={{
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "1.05fr 1fr",
@@ -455,6 +457,8 @@ function ManifestoFabrica() {
   const bp       = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const hPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
 
   const lines = [
@@ -494,7 +498,7 @@ function ManifestoFabrica() {
         }
       `}</style>
 
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: hPad, textAlign: "center" }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", padding: hPad, textAlign: "center" }}>
         <Reveal>
           <div aria-hidden style={{
             width: 80, height: 1, background: "var(--g-verde-300)",
@@ -563,6 +567,8 @@ function SalProteinada() {
   const bp       = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const hPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
 
   useEffect(() => {
@@ -579,7 +585,7 @@ function SalProteinada() {
       padding: isMobile ? "48px 0 40px" : "96px 0 80px",
       overflow: "hidden",
     }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: hPad }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: hPad }}>
 
         {/* Section header */}
         <div style={{
@@ -772,6 +778,7 @@ function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHo
   const bp       = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
 
   const imgWidth      = isMobile ? "125%" : isTablet ? "175%" : "190%";
   const containerRatio = isMobile ? "4/3"  : "1024/700";
@@ -795,7 +802,7 @@ function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHo
         onMouseMove={onMove}
         onMouseLeave={handleLeave}
         style={{
-          position: "relative", width: "100%", maxWidth: 1060,
+          position: "relative", width: "100%", maxWidth: isWide ? 1400 : 1060,
           aspectRatio: containerRatio,
           transform: `perspective(1200px) rotateX(${tilt.y * -3}deg) rotateY(${tilt.x * 3}deg)`,
           transition: "transform 600ms var(--g-ease-soft)",
@@ -876,6 +883,8 @@ function PastosBrachiaria() {
   const bp       = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
+  const contentMax = isWide ? 1900 : 1440;
   const hPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
 
   useEffect(() => {
@@ -901,7 +910,7 @@ function PastosBrachiaria() {
         background: "linear-gradient(180deg, rgba(8,16,26,0.85) 0%, rgba(8,16,26,0.75) 60%, rgba(8,16,26,0.95) 100%)",
       }} />
 
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: hPad }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", padding: hPad }}>
         {/* Header — columna única en móvil */}
         <div style={{
           display: isMobile ? "flex" : "grid",

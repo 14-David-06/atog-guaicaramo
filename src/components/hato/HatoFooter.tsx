@@ -30,8 +30,10 @@ export default function HatoFooter() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
   const isSmall  = isMobile || isTablet;
 
+  const contentMax = isWide ? 1900 : 1440;
   const secPad    = isMobile ? "40px 20px 0" : isTablet ? "40px 32px 0" : "56px 56px 0";
   const creditPad = isMobile ? "14px 20px" : isTablet ? "14px 32px" : "14px 56px";
   const gridCols  = isSmall ? "1fr" : "1.05fr 1fr";
@@ -39,7 +41,7 @@ export default function HatoFooter() {
 
   return (
     <footer id="contacto" style={{ background: "var(--g-beige)", color: "var(--g-fg)", position: "relative" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: secPad }}>
+      <div style={{ maxWidth: contentMax, margin: "0 auto", padding: secPad }}>
         <div style={{ display: "grid", gridTemplateColumns: gridCols, gap: gridGap, alignItems: "start" }}>
           <div>
             <HatoWordmark height={isMobile ? 64 : 96} />

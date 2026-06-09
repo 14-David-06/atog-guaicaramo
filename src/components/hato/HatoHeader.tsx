@@ -26,7 +26,10 @@ export default function HatoHeader({ onNavigate, active: _active, inverse: _inve
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
   const isSmall  = isMobile || isTablet;
+
+  const contentMax = isWide ? 1900 : 1440;
   // Mantiene hamburger hasta 1200px para evitar overflow del nav
   const showMobileNav = isSmall || narrowDesktop;
 
@@ -66,7 +69,7 @@ export default function HatoHeader({ onNavigate, active: _active, inverse: _inve
       transition: "all 220ms var(--g-ease-soft)",
     }}>
       <div style={{
-        maxWidth: 1440, margin: "0 auto", padding: containerPad,
+        maxWidth: contentMax, margin: "0 auto", padding: containerPad,
         display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32,
       }}>
         <a href="#" onClick={(e) => { e.preventDefault(); handleNav("top"); }} style={{ textDecoration: "none" }}>

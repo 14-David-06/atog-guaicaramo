@@ -203,6 +203,9 @@ const PRACTICES: Practice[] = [
 ];
 
 export default function BuenasPracticasPage() {
+  const bp = useBreakpoint();
+  const isWide = bp === "wide";
+  const contentMax = isWide ? 1580 : 1200;
   return (
     <>
       <style>{`
@@ -218,7 +221,7 @@ export default function BuenasPracticasPage() {
       <BPHero />
       <BPIntro />
       <section style={{ background: "var(--g-bg)", padding: "clamp(16px,2vw,28px) 0 clamp(52px,6vw,80px)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px,4vw,56px)" }}>
+        <div style={{ maxWidth: contentMax, margin: "0 auto", padding: "0 clamp(20px,4vw,56px)" }}>
           {PRACTICES.map((p, i) => <BPPractice key={p.id} {...p} flip={i % 2 === 1} last={i === PRACTICES.length - 1} />)}
         </div>
       </section>
@@ -233,6 +236,7 @@ export default function BuenasPracticasPage() {
 function BPHero() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
   const pad = isMobile ? "64px 24px 52px" : "72px 56px 52px";
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -287,7 +291,7 @@ function BPHero() {
       {/* Viñeta vertical para legibilidad del texto y del scroll hint */}
       <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(180deg, rgba(8,16,10,0.45) 0%, transparent 30%, transparent 70%, rgba(8,16,10,0.60) 100%)" }} />
 
-      <div style={{ position: "relative", zIndex: 3, maxWidth: 1100, margin: "0 auto", width: "100%", padding: pad, textAlign: "center" }}>
+      <div style={{ position: "relative", zIndex: 3, maxWidth: isWide ? 1450 : 1100, margin: "0 auto", width: "100%", padding: pad, textAlign: "center" }}>
         <BPReveal>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 28, fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase", color: "var(--g-verde-300)" }}>
             <span style={{ width: 40, height: 1, background: "var(--g-verde-300)" }} />
@@ -339,6 +343,7 @@ function BPIntro() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide = bp === "wide";
   const isSmall = isMobile || isTablet;
   const pad = isMobile ? "clamp(48px,6vw,80px) 24px clamp(28px,3vw,44px)" : "clamp(48px,6vw,80px) 56px clamp(28px,3vw,44px)";
   const idx = [
@@ -349,7 +354,7 @@ function BPIntro() {
   ];
   return (
     <section style={{ background: "var(--g-bg)", padding: pad, position: "relative", overflow: "hidden" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
+      <div style={{ maxWidth: isWide ? 1580 : 1200, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
         <div style={{ display: "grid", gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr", gap: "clamp(32px,5vw,72px)", alignItems: "end", marginBottom: "clamp(40px,5vw,64px)" }}>
           <div>
             <BPReveal>
@@ -459,11 +464,12 @@ function BPPractice({ id: _id, n, tag, title, illo, icon, lead, chips, note, fli
 function BPCTA() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
+  const isWide = bp === "wide";
   const pad = isMobile ? "clamp(48px,6vw,80px) 24px" : "clamp(48px,6vw,80px) 56px";
   return (
     <section style={{ position: "relative", background: "var(--g-verde-900)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 120%, rgba(98,119,97,0.34), transparent 60%)" }} />
-      <div style={{ position: "relative", maxWidth: 1000, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px", textAlign: "center" }}>
+      <div style={{ position: "relative", maxWidth: isWide ? 1300 : 1000, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px", textAlign: "center" }}>
         <BPRise text="Hacer las cosas bien, todos los días." color="var(--g-beige)" size="clamp(30px,4.4vw,64px)" />
         <BPReveal delay={260}>
           <div style={{ marginTop: 38, display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>

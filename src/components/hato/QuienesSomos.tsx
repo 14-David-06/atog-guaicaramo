@@ -16,8 +16,10 @@ export default function QuienesSomos() {
   const bp        = useBreakpoint();
   const isMobile  = bp === "mobile";
   const isTablet  = bp === "tablet";
+  const isWide    = bp === "wide";
   const noParallax = isMobile || isTablet;
 
+  const contentMax = isWide ? 1700 : 1280;
   const secPad = isMobile ? "32px 20px" : isTablet ? "40px 32px" : "48px 56px";
 
   return (
@@ -32,7 +34,7 @@ export default function QuienesSomos() {
         padding: isMobile ? "72px 20px 40px" : isTablet ? "60px 32px 40px" : "32px 56px 56px",
         borderBottom: "1px solid var(--g-line)",
       }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div style={{ maxWidth: contentMax, margin: "0 auto" }}>
           <div style={{
             display: "grid",
             gridTemplateColumns: isMobile ? "1fr" : "0.95fr 1.05fr",
@@ -110,7 +112,7 @@ export default function QuienesSomos() {
         padding: secPad,
         borderTop: "1px solid var(--g-line)",
       }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div style={{ maxWidth: contentMax, margin: "0 auto" }}>
           <div style={{
             display: "grid",
             gridTemplateColumns: isMobile ? "1fr" : "0.85fr 1.15fr",
@@ -183,7 +185,7 @@ export default function QuienesSomos() {
         padding: secPad,
         borderTop: "1px solid var(--g-line)",
       }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div style={{ maxWidth: contentMax, margin: "0 auto" }}>
           <div style={{
             display: "grid",
             gridTemplateColumns: isMobile ? "repeat(3, 1fr)" : "repeat(5, 1fr)",
@@ -228,7 +230,7 @@ export default function QuienesSomos() {
         padding: secPad,
         borderTop: "1px solid var(--g-line)",
       }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div style={{ maxWidth: contentMax, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 18, marginBottom: 32, ...qsRise(0) }}>
             <div style={{
               fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500,
@@ -269,7 +271,7 @@ export default function QuienesSomos() {
         padding: secPad,
         borderTop: "1px solid var(--g-line)",
       }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div style={{ maxWidth: contentMax, margin: "0 auto" }}>
           <div style={{
             display: "flex", alignItems: "flex-end", justifyContent: "space-between",
             gap: 32, flexWrap: "wrap", marginBottom: 32,

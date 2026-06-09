@@ -14,7 +14,9 @@ export default function BuenasPracticas() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
+  const isWide   = bp === "wide";
 
+  const contentMax = isWide ? 1900 : 1440;
   const secPad   = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
   const gridCols = isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(4, minmax(0, 1fr))";
 
@@ -34,7 +36,7 @@ export default function BuenasPracticas() {
         background: "linear-gradient(180deg, transparent 0%, rgba(249,246,232,0.18) 60%, rgba(249,246,232,0.40) 100%)",
         pointerEvents: "none",
       }} />
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: secPad }}>
+      <div style={{ position: "relative", maxWidth: contentMax, margin: "0 auto", padding: secPad }}>
         <div style={{ textAlign: "center", marginBottom: isMobile ? 40 : 64 }}>
           <h2 style={{
             display: "inline-block",
