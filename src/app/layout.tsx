@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   },
   // Reemplazar con el código real de Google Search Console al verificar la propiedad
   verification: {
-    google: "CÓDIGO_AQUÍ",
+    google: "VZ_R7GNB_y95xe6YVxzOYQYkRyMu5TgmlNbWfnz-bFE",
   },
 };
 
