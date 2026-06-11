@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect, useMemo, useRef } from "react";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { HatoBtn, SectionTitle } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { SanityTestimonial } from "@/sanity/queries/testimonials";
 
 type TestimonialItem = {
   date: string;
@@ -12,6 +14,24 @@ type TestimonialItem = {
   body: React.ReactNode;
   instagram: string;
 };
+
+const ptComponents: PortableTextComponents = {
+  block: { normal: ({ children }) => <>{children}</> },
+  marks: { strong: ({ children }) => <strong>{children}</strong> },
+}
+
+const DEFAULT_GRAD = "linear-gradient(160deg,#c8b48a,#7a5e36,#1a1410)"
+
+function sanityToItem(item: SanityTestimonial): TestimonialItem {
+  return {
+    date: item.date,
+    name: item.name,
+    grad: item.grad ?? DEFAULT_GRAD,
+    photo: item.photoUrl ?? undefined,
+    body: <PortableText value={item.body} components={ptComponents} />,
+    instagram: item.instagramUrl,
+  }
+}
 
 const rawItems: TestimonialItem[] = [
   {
@@ -60,10 +80,15 @@ const rawItems: TestimonialItem[] = [
   },
 ];
 
-export default function Testimoniales() {
+export default function Testimoniales({ sanityItems }: { sanityItems?: SanityTestimonial[] }) {
   const items = useMemo(
-    () => [...rawItems].sort((a, b) => b.date.localeCompare(a.date)),
-    []
+    () => {
+      const source = sanityItems && sanityItems.length > 0
+        ? sanityItems.map(sanityToItem)
+        : [...rawItems]
+      return source.sort((a, b) => b.date.localeCompare(a.date))
+    },
+    [sanityItems]
   );
 
   const bp = useBreakpoint();

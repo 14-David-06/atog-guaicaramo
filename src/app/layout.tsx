@@ -3,6 +3,7 @@ import "./globals.css";
 import HatoHeaderWrapper from "@/components/hato/HatoHeaderWrapper";
 import HatoFooter from "@/components/hato/HatoFooter";
 import { JsonLd } from "@/components/JsonLd";
+import { SanityLive } from "@/sanity/lib/live";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hato.guaicaramo.com"),
@@ -86,6 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <HatoHeaderWrapper />
         {children}
         <HatoFooter />
+        <SanityLive />
       </body>
     </html>
   );
