@@ -28,7 +28,7 @@ export const metadata: Metadata = {
       "Empresa ganadera especializada en genética de talla mundial y sistemas eficientes de producción animal para el trópico. Maní, Casanare.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Hato Guaicaramo — Genética de talla mundial para el trópico",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: "Hato Guaicaramo · Genética de talla mundial para el trópico",
     description:
       "Empresa ganadera especializada en genética de talla mundial y sistemas eficientes de producción animal para el trópico.",
-    images: ["/og-image.jpg"],
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
