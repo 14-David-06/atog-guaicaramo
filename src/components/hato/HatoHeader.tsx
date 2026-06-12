@@ -23,6 +23,7 @@ export default function HatoHeader({ onNavigate, active: _active, inverse: _inve
   const [scrolled, setScrolled]       = useState(false);
   const [menuOpen, setMenuOpen]       = useState(false);
   const [narrowDesktop, setNarrow]    = useState(true);
+  const [mounted, setMounted]         = useState(false);
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
@@ -32,6 +33,8 @@ export default function HatoHeader({ onNavigate, active: _active, inverse: _inve
   const contentMax = isWide ? 1900 : 1440;
   // Mantiene hamburger hasta 1200px para evitar overflow del nav
   const showMobileNav = isSmall || narrowDesktop;
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 80);
@@ -52,7 +55,9 @@ export default function HatoHeader({ onNavigate, active: _active, inverse: _inve
     onNavigate(id);
   };
 
-  const onLight     = forceLight || scrolled;
+  // Antes de hidratarse, el hero aún no ha llegado via streaming y el fondo
+  // del body es beige — forzar onLight para que el texto sea legible.
+  const onLight     = !mounted || forceLight || scrolled;
   const logoInverse = !onLight;
   const linkColor   = onLight ? "var(--g-petroleo-700)" : "var(--g-beige)";
 
