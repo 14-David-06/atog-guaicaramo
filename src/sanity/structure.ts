@@ -43,4 +43,16 @@ export const structure: StructureResolver = (S) =>
         .title('Testimoniales')
         .schemaType('testimonial')
         .child(S.documentTypeList('testimonial').title('Testimoniales')),
+
+      S.divider(),
+
+      S.listItem()
+        .title('Footer / Contacto')
+        .schemaType('footer')
+        .child(
+          S.document()
+            .schemaType('footer')
+            .documentId('footer')
+            .title('Footer / Contacto')
+        ),
     ])

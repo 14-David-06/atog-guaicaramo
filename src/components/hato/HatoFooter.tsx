@@ -3,6 +3,33 @@
 import { useState } from "react";
 import { HatoWordmark } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { SanityFooter } from "@/sanity/queries/footer";
+
+const RAW: SanityFooter = {
+  heading: "Tu éxito comienza aquí",
+  description: "Si quieres conocer más sobre nuestros sistemas, animales o proyectos, estamos listos para responder y acompañarte.\nHablemos y construyamos juntos.",
+  address: "Kilómetro 7 Vía Barranca de Upía – Cabuyaro\nManí, Casanare",
+  phone: "+57 312 401 25 10",
+  email: "comunicaciones@guaicaramo.com",
+  instagramUrl: "https://www.instagram.com/hatoguaicaramo",
+  tiktokUrl: "https://www.tiktok.com/@hato.guaicaramo",
+  facebookUrl: "https://www.facebook.com/share/18KDMautQH/",
+  footerImageUrl: null,
+  privacyPolicyUrl: "#aviso-privacidad",
+  dataProtectionFileUrl: "/assets/pdf/POLITICA_DE_TRATAMIENTO_DE_DATOS_PERSONALES.pdf",
+}
+
+/** Divide un texto multilinea en spans con <br /> entre líneas */
+function Multiline({ text }: { text: string }) {
+  const lines = text.split("\n")
+  return (
+    <>
+      {lines.map((line, i) => (
+        <span key={i}>{line}{i < lines.length - 1 && <br />}</span>
+      ))}
+    </>
+  )
+}
 
 /* ---------- FooterLink ---------- */
 function FooterLink({ href, children, download }: { href: string; children: React.ReactNode; download?: boolean }) {
@@ -26,7 +53,9 @@ function FooterLink({ href, children, download }: { href: string; children: Reac
   );
 }
 
-export default function HatoFooter() {
+export default function HatoFooter({ sanityData }: { sanityData?: SanityFooter | null }) {
+  const d = sanityData ?? RAW;
+  const addressLines = d.address.split("\n");
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
@@ -50,16 +79,14 @@ export default function HatoFooter() {
               color: "var(--g-verde-500)", fontWeight: 400, margin: "36px 0 18px",
               letterSpacing: "0.005em",
             }}>
-              Tu éxito comienza aquí
+              {d.heading}
             </h2>
             <p style={{
               fontSize: 16, lineHeight: 1.6,
               color: "var(--g-fg)", margin: 0, maxWidth: 480, textWrap: "pretty",
               fontFamily: '"Atlas Grotesk"',
             }}>
-              Si quieres conocer más sobre nuestros sistemas, animales o
-              proyectos, estamos listos para responder y acompañarte.<br />
-              Hablemos y construyamos juntos.
+              <Multiline text={d.description} />
             </p>
           </div>
 
@@ -70,9 +97,9 @@ export default function HatoFooter() {
             }}>
               Información de contacto
             </h3>
-            <ContactRow icon="pin"   lines={["Kilómetro 7 Vía Barranca de Upía – Cabuyaro", "Maní, Casanare"]} />
-            <ContactRow icon="phone" lines={["+57 312 401 25 10"]} />
-            <ContactRow icon="mail"  lines={["comunicaciones@guaicaramo.com"]} />
+            <ContactRow icon="pin"   lines={addressLines} />
+            <ContactRow icon="phone" lines={[d.phone]} />
+            <ContactRow icon="mail"  lines={[d.email]} />
 
             <h3 style={{
               fontFamily: "var(--g-font-display)", fontSize: isMobile ? 22 : 28, lineHeight: 1.1,
@@ -81,23 +108,29 @@ export default function HatoFooter() {
               Síguenos en redes sociales
             </h3>
             <div style={{ display: "flex", gap: 14 }}>
-              <SocialCircle url="https://www.instagram.com/hatoguaicaramo" title="Instagram">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none" />
-                </svg>
-              </SocialCircle>
-              <SocialCircle url="https://www.tiktok.com/@hato.guaicaramo" title="TikTok">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M16.5 3v3.2a4.3 4.3 0 0 0 4.3 4.3v3.2a7.5 7.5 0 0 1-4.3-1.36V16.5a5.5 5.5 0 1 1-5.5-5.5h.7v3.2H11a2.3 2.3 0 1 0 2.3 2.3V3h3.2z" />
-                </svg>
-              </SocialCircle>
-              <SocialCircle url="https://www.facebook.com/share/18KDMautQH/" title="Facebook">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.5 1.6-1.5h1.7V4.2c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.6H7.7v3.2h2.7V22z" />
-                </svg>
-              </SocialCircle>
+              {d.instagramUrl && (
+                <SocialCircle url={d.instagramUrl} title="Instagram">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none" />
+                  </svg>
+                </SocialCircle>
+              )}
+              {d.tiktokUrl && (
+                <SocialCircle url={d.tiktokUrl} title="TikTok">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M16.5 3v3.2a4.3 4.3 0 0 0 4.3 4.3v3.2a7.5 7.5 0 0 1-4.3-1.36V16.5a5.5 5.5 0 1 1-5.5-5.5h.7v3.2H11a2.3 2.3 0 1 0 2.3 2.3V3h3.2z" />
+                  </svg>
+                </SocialCircle>
+              )}
+              {d.facebookUrl && (
+                <SocialCircle url={d.facebookUrl} title="Facebook">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.5 1.6-1.5h1.7V4.2c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.6H7.7v3.2h2.7V22z" />
+                  </svg>
+                </SocialCircle>
+              )}
             </div>
           </div>
         </div>
@@ -106,7 +139,7 @@ export default function HatoFooter() {
       {/* Manada — full-bleed */}
       <div style={{ marginTop: 64, width: "100%", position: "relative", lineHeight: 0 }}>
         <img
-          src="/assets/photography/manada-footer.jpg"
+          src={d.footerImageUrl ?? "/assets/photography/manada-footer.jpg"}
           alt="Manada de búfalos y Nelore del Hato Guaicaramo"
           style={{ display: "block", width: "100%", height: "auto" }}
         />
@@ -125,9 +158,9 @@ export default function HatoFooter() {
         <span>Todos los derechos reservados</span>
         <strong style={{ color: "var(--g-verde-500)", fontWeight: 600 }}>Hato Guaicaramo</strong>
         <span>·</span>
-        <FooterLink href="#aviso-privacidad">Aviso de privacidad</FooterLink>
+        <FooterLink href={d.privacyPolicyUrl ?? "#aviso-privacidad"}>Aviso de privacidad</FooterLink>
         <span>·</span>
-        <FooterLink href="/assets/pdf/POLITICA_DE_TRATAMIENTO_DE_DATOS_PERSONALES.pdf" download>
+        <FooterLink href={d.dataProtectionFileUrl ?? "/assets/pdf/POLITICA_DE_TRATAMIENTO_DE_DATOS_PERSONALES.pdf"} download>
           Política de tratamiento de datos
         </FooterLink>
       </div>

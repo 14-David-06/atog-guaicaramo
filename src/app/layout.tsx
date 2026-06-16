@@ -3,7 +3,8 @@ import "./globals.css";
 import HatoHeaderWrapper from "@/components/hato/HatoHeaderWrapper";
 import HatoFooter from "@/components/hato/HatoFooter";
 import { JsonLd } from "@/components/JsonLd";
-import { SanityLive } from "@/sanity/lib/live";
+import { SanityLive, sanityFetch } from "@/sanity/lib/live";
+import { FOOTER_QUERY, type SanityFooter } from "@/sanity/queries/footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hato.guaicaramo.com"),
@@ -57,7 +58,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const { data } = await sanityFetch({ query: FOOTER_QUERY });
+  const footerData = data as SanityFooter | null;
+
   return (
     <html lang="es-CO">
       <head>
@@ -86,7 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <HatoHeaderWrapper />
         {children}
-        <HatoFooter />
+        <HatoFooter sanityData={footerData} />
         <SanityLive />
       </body>
     </html>
