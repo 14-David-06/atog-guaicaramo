@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import type { CSSProperties } from "react";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { HatoIcon } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { SanityQuienesSomos, SanityValor } from "@/sanity/queries/quienesSomos";
 
 /* staggered fade-up animation helper */
 function qsRise(i = 0): CSSProperties {
@@ -12,7 +14,50 @@ function qsRise(i = 0): CSSProperties {
   };
 }
 
-export default function QuienesSomos() {
+const RAW_VALORES: SanityValor[] = [
+  { num: "01", title: "Pasión",         desc: "Caminamos hacia la excelencia en cada acción." },
+  { num: "02", title: "Transparencia",  desc: "Promovemos la confianza en todas las partes interesadas." },
+  { num: "03", title: "Emprendimiento", desc: "Retamos al statu quo en toda la organización." },
+  { num: "04", title: "Liderazgo",      desc: "Motivamos, inspiramos y empoderamos para encontrar soluciones." },
+]
+
+const VALORES_STYLE = [
+  { icon: "flame",        tone: "#233653", tint: "rgba(35,54,83,0.16)" },
+  { icon: "shield-check", tone: "#627761", tint: "rgba(98,119,97,0.18)" },
+  { icon: "rocket",       tone: "#9AAD99", tint: "rgba(154,173,153,0.28)" },
+  { icon: "compass",      tone: "#B7AD91", tint: "rgba(183,173,145,0.28)" },
+]
+
+const ptBodyComponents: PortableTextComponents = {
+  block: {
+    normal: ({ children }) => (
+      <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6, color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty" }}>
+        {children}
+      </p>
+    ),
+  },
+  marks: {
+    strong: ({ children }) => <strong style={{ color: "var(--g-petroleo-900)" }}>{children}</strong>,
+  },
+}
+
+export default function QuienesSomos({ sanityData }: { sanityData?: SanityQuienesSomos | null }) {
+  const d = {
+    introTitle:       sanityData?.introTitle       ?? 'Hato',
+    introTitleItalic: sanityData?.introTitleItalic ?? 'Guaicaramo.',
+    introSubtitle:    sanityData?.introSubtitle    ?? 'Empresa ganadera especializada en genética de talla mundial y sistemas eficientes de producción bovina para el trópico colombiano.',
+    introImageUrl:    sanityData?.introImageUrl    ?? null,
+    introVideoUrl:    sanityData?.introVideoUrl    ?? 'https://www.instagram.com/reel/C2R6YzYOxnb/?igsh=MXU1N2VhYXU4Z25pcA==',
+    qsHeading:        sanityData?.qsHeading        ?? 'Genética, nutrición y manejo.',
+    qsHeadingItalic:  sanityData?.qsHeadingItalic  ?? 'El sistema completo.',
+    qsBody:           sanityData?.qsBody           ?? null,
+    misionText:       sanityData?.misionText       ?? 'Guaicaramo es una empresa dedicada al desarrollo de la agroindustria, con énfasis en la palma de aceite y sus derivados, comprometida con la sostenibilidad, la comunidad, sus empleados, socios y clientes, siguiendo principios de calidad y eficiencia.',
+    visionText:       sanityData?.visionText       ?? 'Ser una empresa líder reconocida en Colombia en el sector de la palma de aceite, biocombustibles, ganadería, derivados lácteos y agricultura, satisfaciendo mercados nacionales e internacionales en beneficio de los clientes, la comunidad y sus socios.',
+    valores:          sanityData?.valores          ?? null,
+    quote:            sanityData?.quote            ?? 'La rentabilidad está en los ciclos productivos, no en la improvisación.',
+    quoteHighlight:   sanityData?.quoteHighlight   ?? 'ciclos productivos',
+  }
+
   const bp        = useBreakpoint();
   const isMobile  = bp === "mobile";
   const isTablet  = bp === "tablet";
@@ -52,7 +97,7 @@ export default function QuienesSomos() {
                 background: "var(--g-stone-100)",
               }}>
                 <img
-                  src="/assets/photography/hero-nelore-hato.jpg"
+                  src={d.introImageUrl ?? "/assets/photography/hero-nelore-hato.jpg"}
                   alt="Hato Guaicaramo — sabana llanera"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
@@ -62,7 +107,7 @@ export default function QuienesSomos() {
                     animation: "qsFloat 5s ease-in-out infinite",
                   }}
                 >
-                  <VideoCtaButton href="https://www.instagram.com/reel/C2R6YzYOxnb/?igsh=MXU1N2VhYXU4Z25pcA==" />
+                  <VideoCtaButton href={d.introVideoUrl} />
                 </div>
               </div>
             </div>
@@ -86,7 +131,7 @@ export default function QuienesSomos() {
                 color: "var(--g-verde-800)", fontWeight: 400, margin: 0,
                 textWrap: "balance",
               }}>
-                Hato <em style={{ fontStyle: "italic", color: "var(--g-verde-700)" }}>Guaicaramo.</em>
+                {d.introTitle}{" "}<em style={{ fontStyle: "italic", color: "var(--g-verde-700)" }}>{d.introTitleItalic}</em>
               </h1>
 
               <p style={{
@@ -94,8 +139,7 @@ export default function QuienesSomos() {
                 fontFamily: "var(--g-font-sans)", fontSize: 17, lineHeight: 1.55,
                 color: "var(--g-fg-muted)", maxWidth: "52ch", textWrap: "pretty",
               }}>
-                Empresa ganadera especializada en genética de talla mundial y sistemas
-                eficientes de producción bovina para el trópico colombiano.
+                {d.introSubtitle}
               </p>
             </div>
           </div>
@@ -132,9 +176,9 @@ export default function QuienesSomos() {
                 lineHeight: 1.02, letterSpacing: "-0.018em",
                 color: "var(--g-petroleo-900)", fontWeight: 400, margin: 0,
               }}>
-                Genética, nutrición y manejo.{" "}
+                {d.qsHeading}{" "}
                 <em style={{ color: "var(--g-beige)", fontStyle: "italic" }}>
-                  El sistema completo.
+                  {d.qsHeadingItalic}
                 </em>
               </h2>
 
@@ -150,26 +194,21 @@ export default function QuienesSomos() {
             </div>
 
             <div style={{ display: "grid", gap: 18, ...qsRise(2) }}>
-              <p style={{
-                fontFamily: "var(--g-font-sans)", fontSize: 17, lineHeight: 1.6,
-                color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty",
-              }}>
-                Somos una empresa ganadera especializada en <strong style={{ color: "var(--g-petroleo-900)" }}>genética de talla mundial</strong> y
-                en la creación de sistemas eficientes de producción bovina para el trópico.
-              </p>
-              <p style={{
-                fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6,
-                color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty",
-              }}>
-                Nuestro propósito: Desarrollar el potencial del trópico mediante una ganadería sostenible y productiva.
-              </p>
-              <p style={{
-                fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6,
-                color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty",
-              }}>
-                Invertimos en genética, nutrición y manejo porque entendemos que la
-                <strong style={{ color: "var(--g-petroleo-900)" }}> rentabilidad está en los ciclos productivos</strong>, no en la improvisación.
-              </p>
+              {d.qsBody ? (
+                <PortableText value={d.qsBody} components={ptBodyComponents} />
+              ) : (
+                <>
+                  <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 17, lineHeight: 1.6, color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty" }}>
+                    Somos una empresa ganadera especializada en <strong style={{ color: "var(--g-petroleo-900)" }}>genética de talla mundial</strong> y en la creación de sistemas eficientes de producción bovina para el trópico.
+                  </p>
+                  <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6, color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty" }}>
+                    Nuestro propósito: Desarrollar el potencial del trópico mediante una ganadería sostenible y productiva.
+                  </p>
+                  <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6, color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty" }}>
+                    Invertimos en genética, nutrición y manejo porque entendemos que la <strong style={{ color: "var(--g-petroleo-900)" }}>rentabilidad está en los ciclos productivos</strong>, no en la improvisación.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -246,16 +285,8 @@ export default function QuienesSomos() {
             gap: isMobile ? 16 : 22,
           }}>
             {[
-              {
-                icon: "target",
-                title: "Misión",
-                body: "Guaicaramo es una empresa dedicada al desarrollo de la agroindustria, con énfasis en la palma de aceite y sus derivados, comprometida con la sostenibilidad, la comunidad, sus empleados, socios y clientes, siguiendo principios de calidad y eficiencia.",
-              },
-              {
-                icon: "eye",
-                title: "Visión",
-                body: "Ser una empresa líder reconocida en Colombia en el sector de la palma de aceite, biocombustibles, ganadería, derivados lácteos y agricultura, satisfaciendo mercados nacionales e internacionales en beneficio de los clientes, la comunidad y sus socios.",
-              },
+              { icon: "target", title: "Misión", body: d.misionText },
+              { icon: "eye",    title: "Visión",  body: d.visionText },
             ].map((card, i) => <MisionVisionCard key={card.title} {...card} delay={i} />)}
           </div>
         </div>
@@ -298,12 +329,10 @@ export default function QuienesSomos() {
             gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr 1fr" : "repeat(4, 1fr)",
             gap: 18,
           }}>
-            {[
-              { icon: "flame",        num: "01", title: "Pasión",         desc: "Caminamos hacia la excelencia en cada acción.",                    tone: "#233653", tint: "rgba(35,54,83,0.16)" },
-              { icon: "shield-check", num: "02", title: "Transparencia",  desc: "Promovemos la confianza en todas las partes interesadas.",        tone: "#627761", tint: "rgba(98,119,97,0.18)" },
-              { icon: "rocket",       num: "03", title: "Emprendimiento", desc: "Retamos al statu quo en toda la organización.",                  tone: "#9AAD99", tint: "rgba(154,173,153,0.28)" },
-              { icon: "compass",      num: "04", title: "Liderazgo",      desc: "Motivamos, inspiramos y empoderamos para encontrar soluciones.", tone: "#B7AD91", tint: "rgba(183,173,145,0.28)" },
-            ].map((v, i) => <ValorCard key={v.title} {...v} delay={i} />)}
+            {(d.valores ?? RAW_VALORES).slice(0, 4).map((v, i) => {
+              const style = VALORES_STYLE[i] ?? VALORES_STYLE[3]
+              return <ValorCard key={v.title} {...style} num={v.num} title={v.title} desc={v.desc} delay={i} />
+            })}
           </div>
         </div>
       </section>
@@ -335,7 +364,15 @@ export default function QuienesSomos() {
             color: "var(--g-beige)", fontWeight: 400, fontStyle: "italic",
             margin: 0, textWrap: "pretty",
           }}>
-            La rentabilidad está en los <em style={{ fontStyle: "italic", color: "var(--g-cafe-300)" }}>ciclos productivos</em>, no en la improvisación.
+            {d.quoteHighlight && d.quote.includes(d.quoteHighlight) ? (
+              <>
+                {d.quote.split(d.quoteHighlight)[0]}
+                <em style={{ fontStyle: "italic", color: "var(--g-cafe-300)" }}>{d.quoteHighlight}</em>
+                {d.quote.split(d.quoteHighlight)[1]}
+              </>
+            ) : (
+              d.quote
+            )}
           </p>
           <div style={{
             marginTop: 28, display: "inline-flex", alignItems: "center", gap: 12,

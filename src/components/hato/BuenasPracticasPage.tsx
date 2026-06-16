@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 import { HatoIcon } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { SanityBuenasPracticasPage } from "@/sanity/queries/buenasPracticasPage";
 
 /* ---------- Reveal-on-scroll ---------- */
 function useBPReveal() {
@@ -202,10 +203,22 @@ const PRACTICES: Practice[] = [
   { id: "insem",    n: "04", tag: "Biotecnología reproductiva", title: "Inseminación artificial",       illo: BPGeneGauge,     icon: "dna",         pal: PAL.verdeClaro, img: "/assets/photography/inseminacion-embriones.png",  lead: "La genética importa. Aplicamos biotecnología reproductiva para acelerar la mejora genética, garantizar tasas de preñez óptimas y estandarizar la calidad del hato.",                                        chips: ["Mejora genética", "Preñez óptima", "Calidad estándar"],                  note: "Cada inseminación se mide y se ajusta para maximizar eficiencia y resultados reproductivos." },
 ];
 
-export default function BuenasPracticasPage() {
+export default function BuenasPracticasPage({ sanityData }: { sanityData?: SanityBuenasPracticasPage | null }) {
   const bp = useBreakpoint();
   const isWide = bp === "wide";
   const contentMax = isWide ? 1580 : 1200;
+
+  const sp = sanityData?.practices
+  const mergedPractices: Practice[] = PRACTICES.map((p, i) => ({
+    ...p,
+    tag:   sp?.[i]?.tag      ?? p.tag,
+    title: sp?.[i]?.title    ?? p.title,
+    lead:  sp?.[i]?.lead     ?? p.lead,
+    chips: sp?.[i]?.chips    ?? p.chips,
+    note:  sp?.[i]?.note     ?? p.note,
+    img:   sp?.[i]?.photoUrl ?? p.img,
+  }))
+
   return (
     <>
       <style>{`
@@ -218,14 +231,26 @@ export default function BuenasPracticasPage() {
         @keyframes bp-scrollDot { 0%{transform:translateY(0);opacity:0} 30%{opacity:1} 75%{transform:translateY(13px);opacity:0} 100%{opacity:0} }
         @keyframes bp-cueFloat { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
       `}</style>
-      <BPHero />
-      <BPIntro />
+      <BPHero
+        videoUrl={sanityData?.heroVideoUrl}
+        eyebrow={sanityData?.heroEyebrow}
+        title1={sanityData?.heroTitle1}
+        title2={sanityData?.heroTitle2}
+        description={sanityData?.heroDescription}
+      />
+      <BPIntro
+        label={sanityData?.introLabel}
+        heading1={sanityData?.introHeading1}
+        heading2={sanityData?.introHeading2}
+        body={sanityData?.introBody}
+        practices={mergedPractices}
+      />
       <section style={{ background: "var(--g-bg)", padding: "clamp(16px,2vw,28px) 0 clamp(52px,6vw,80px)" }}>
         <div style={{ maxWidth: contentMax, margin: "0 auto", padding: "0 clamp(20px,4vw,56px)" }}>
-          {PRACTICES.map((p, i) => <BPPractice key={p.id} {...p} flip={i % 2 === 1} last={i === PRACTICES.length - 1} />)}
+          {mergedPractices.map((p, i) => <BPPractice key={p.id} {...p} flip={i % 2 === 1} last={i === mergedPractices.length - 1} />)}
         </div>
       </section>
-      <BPCTA />
+      <BPCTA heading={sanityData?.ctaHeading} />
     </>
   );
 }
@@ -233,7 +258,7 @@ export default function BuenasPracticasPage() {
 /* =====================================================================
    HERO
 ===================================================================== */
-function BPHero() {
+function BPHero({ videoUrl, eyebrow, title1, title2, description }: { videoUrl?: string | null; eyebrow?: string; title1?: string; title2?: string; description?: string }) {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isWide = bp === "wide";
@@ -283,7 +308,7 @@ function BPHero() {
           zIndex: 0,
         }}
       >
-        <source src="/assets/videos/IMG_2292.MOV" type="video/mp4" />
+        <source src={videoUrl ?? "/assets/videos/IMG_2292.MOV"} type="video/mp4" />
       </video>
 
       {/* Overlay verde — mantiene la identidad de color de la sección */}
@@ -295,17 +320,17 @@ function BPHero() {
         <BPReveal>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 28, fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase", color: "var(--g-verde-300)" }}>
             <span style={{ width: 40, height: 1, background: "var(--g-verde-300)" }} />
-            Hato Guaicaramo · Manejo responsable
+            {eyebrow ?? 'Hato Guaicaramo · Manejo responsable'}
             <span style={{ width: 40, height: 1, background: "var(--g-verde-300)" }} />
           </div>
         </BPReveal>
         <h1 style={{ margin: 0, display: "inline-block" }}>
-          <BPRise text="Nuestras"         color="rgba(249,246,232,0.64)" size="clamp(34px, 5vw, 70px)" />
-          <BPRise text="buenas prácticas." delay={120} color="var(--g-beige)" size="clamp(52px, 9vw, 142px)" />
+          <BPRise text={title1 ?? 'Nuestras'}            color="rgba(249,246,232,0.64)" size="clamp(34px, 5vw, 70px)" />
+          <BPRise text={title2 ?? 'buenas prácticas.'} delay={120} color="var(--g-beige)" size="clamp(52px, 9vw, 142px)" />
         </h1>
         <BPReveal delay={520}>
           <p style={{ margin: "30px auto 0", maxWidth: "52ch", fontFamily: "var(--g-font-sans)", fontSize: "clamp(16px, 1.5vw, 21px)", lineHeight: 1.6, color: "rgba(249,246,232,0.88)", textWrap: "pretty" }}>
-            Producir bien empieza por hacer las cosas bien. Cuatro prácticas que sostienen la productividad, la salud y la sostenibilidad del hato.
+            {description ?? 'Producir bien empieza por hacer las cosas bien. Cuatro prácticas que sostienen la productividad, la salud y la sostenibilidad del hato.'}
           </p>
         </BPReveal>
       </div>
@@ -339,19 +364,18 @@ function BPIndexCard({ it, delay }: { it: { n: string; t: string; icon: string; 
   );
 }
 
-function BPIntro() {
+function BPIntro({ label, heading1, heading2, body, practices }: { label?: string; heading1?: string; heading2?: string; body?: string; practices?: Practice[] }) {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
   const isWide = bp === "wide";
   const isSmall = isMobile || isTablet;
   const pad = isMobile ? "clamp(48px,6vw,80px) 24px clamp(28px,3vw,44px)" : "clamp(48px,6vw,80px) 56px clamp(28px,3vw,44px)";
-  const idx = [
-    { n: "01", t: "Pastoreo rotacional",          icon: "refresh-cw",  c: PAL.verde },
-    { n: "02", t: "Nuestros riegos",               icon: "droplets",    c: PAL.petroleo },
-    { n: "03", t: "Vacunación y desparasitación",  icon: "shield-plus", c: PAL.cafe },
-    { n: "04", t: "Inseminación artificial",       icon: "dna",         c: PAL.verdeClaro },
-  ];
+  const PAL_IDX = [PAL.verde, PAL.petroleo, PAL.cafe, PAL.verdeClaro];
+  const ICONS_IDX = ["refresh-cw", "droplets", "shield-plus", "dna"];
+  const idx = (practices ?? PRACTICES).map((p, i) => ({
+    n: p.n, t: p.title, icon: ICONS_IDX[i] ?? p.icon, c: PAL_IDX[i] ?? PAL.verde,
+  }));
   return (
     <section style={{ background: "var(--g-bg)", padding: pad, position: "relative", overflow: "hidden" }}>
       <div style={{ maxWidth: isWide ? 1580 : 1200, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
@@ -360,15 +384,15 @@ function BPIntro() {
             <BPReveal>
               <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24, fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--g-verde-600)" }}>
                 <span style={{ width: 28, height: 1, background: "var(--g-verde-600)" }} />
-                El método
+                {label ?? 'El método'}
               </div>
             </BPReveal>
-            <BPRise text="Cuatro frentes,"      color="var(--g-verde-900)" size="clamp(30px,4.4vw,62px)" />
-            <BPRise text="un mismo estándar."   delay={110} color="var(--g-verde-500)" italic size="clamp(30px,4.4vw,62px)" />
+            <BPRise text={heading1 ?? 'Cuatro frentes,'}      color="var(--g-verde-900)" size="clamp(30px,4.4vw,62px)" />
+            <BPRise text={heading2 ?? 'un mismo estándar.'}   delay={110} color="var(--g-verde-500)" italic size="clamp(30px,4.4vw,62px)" />
           </div>
           <BPReveal delay={160}>
             <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.7, color: "var(--g-cafe-700)", margin: 0, maxWidth: "46ch", textWrap: "pretty" }}>
-              Cada práctica se planifica, se mide y se ajusta. No son rutinas sueltas: forman un sistema que se sostiene entre sí.
+              {body ?? 'Cada práctica se planifica, se mide y se ajusta. No son rutinas sueltas: forman un sistema que se sostiene entre sí.'}
             </p>
           </BPReveal>
         </div>
@@ -461,7 +485,7 @@ function BPPractice({ id: _id, n, tag, title, illo, icon, lead, chips, note, fli
 /* =====================================================================
    CTA
 ===================================================================== */
-function BPCTA() {
+function BPCTA({ heading }: { heading?: string }) {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isWide = bp === "wide";
@@ -470,7 +494,7 @@ function BPCTA() {
     <section style={{ position: "relative", background: "var(--g-verde-900)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 120%, rgba(98,119,97,0.34), transparent 60%)" }} />
       <div style={{ position: "relative", maxWidth: isWide ? 1300 : 1000, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px", textAlign: "center" }}>
-        <BPRise text="Hacer las cosas bien, todos los días." color="var(--g-beige)" size="clamp(30px,4.4vw,64px)" />
+        <BPRise text={heading ?? 'Hacer las cosas bien, todos los días.'} color="var(--g-beige)" size="clamp(30px,4.4vw,64px)" />
         <BPReveal delay={260}>
           <div style={{ marginTop: 38, display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <BPCtaLink href="/" solid>Volver al inicio</BPCtaLink>

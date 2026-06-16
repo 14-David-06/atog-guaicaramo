@@ -4,48 +4,82 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title('Hato Guaicaramo')
     .items([
-      S.listItem()
-        .title('Hero — Slides del inicio')
-        .schemaType('heroSlide')
-        .child(S.documentTypeList('heroSlide').title('Hero Slides')),
 
+      // ─── Página de Inicio ──────────────────────────────────────────
       S.listItem()
-        .title('Buenas Prácticas — Cards')
-        .schemaType('buenaPractica')
-        .child(S.documentTypeList('buenaPractica').title('Buenas Prácticas')),
-
-      S.listItem()
-        .title('Genética — Nelore CIA')
-        .schemaType('seccionDestacada')
+        .title('Página de Inicio')
         .child(
-          S.document()
-            .schemaType('seccionDestacada')
-            .documentId('seccion-genetica')
-            .title('Genética — Nelore CIA')
+          S.list()
+            .title('Página de Inicio')
+            .items([
+              S.listItem()
+                .title('Hero — Slides del inicio')
+                .schemaType('heroSlide')
+                .child(S.documentTypeList('heroSlide').title('Hero Slides')),
+
+              S.listItem()
+                .title('Buenas Prácticas — Cards')
+                .schemaType('buenaPractica')
+                .child(S.documentTypeList('buenaPractica').title('Buenas Prácticas')),
+
+              S.listItem()
+                .title('Genética — Nelore CIA')
+                .schemaType('seccionDestacada')
+                .child(
+                  S.document()
+                    .schemaType('seccionDestacada')
+                    .documentId('seccion-genetica')
+                    .title('Genética — Nelore CIA')
+                ),
+
+              S.listItem()
+                .title('Búfalos — Sección')
+                .schemaType('seccionDestacada')
+                .child(
+                  S.document()
+                    .schemaType('seccionDestacada')
+                    .documentId('seccion-bufalos')
+                    .title('Búfalos — Sección')
+                ),
+
+              S.listItem()
+                .title('Sellos de certificación')
+                .schemaType('sello')
+                .child(S.documentTypeList('sello').title('Sellos')),
+
+              S.listItem()
+                .title('Testimoniales')
+                .schemaType('testimonial')
+                .child(S.documentTypeList('testimonial').title('Testimoniales')),
+            ])
         ),
-
-      S.listItem()
-        .title('Búfalos — Sección')
-        .schemaType('seccionDestacada')
-        .child(
-          S.document()
-            .schemaType('seccionDestacada')
-            .documentId('seccion-bufalos')
-            .title('Búfalos — Sección')
-        ),
-
-      S.listItem()
-        .title('Sellos de certificación')
-        .schemaType('sello')
-        .child(S.documentTypeList('sello').title('Sellos')),
-
-      S.listItem()
-        .title('Testimoniales')
-        .schemaType('testimonial')
-        .child(S.documentTypeList('testimonial').title('Testimoniales')),
 
       S.divider(),
 
+      // ─── Páginas internas ──────────────────────────────────────────
+      S.listItem()
+        .title('Quiénes Somos')
+        .schemaType('quienesSomos')
+        .child(
+          S.document()
+            .schemaType('quienesSomos')
+            .documentId('quienes-somos')
+            .title('Quiénes Somos')
+        ),
+
+      S.listItem()
+        .title('Buenas Prácticas — Página')
+        .schemaType('buenasPracticasPage')
+        .child(
+          S.document()
+            .schemaType('buenasPracticasPage')
+            .documentId('buenas-practicas-page')
+            .title('Buenas Prácticas — Página')
+        ),
+
+      S.divider(),
+
+      // ─── Sitio global ──────────────────────────────────────────────
       S.listItem()
         .title('Footer / Contacto')
         .schemaType('footer')
