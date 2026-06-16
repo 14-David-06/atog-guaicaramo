@@ -2,15 +2,26 @@
 
 import { useState } from "react";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { SanityBuenaPractica } from "@/sanity/queries/buenasPracticas";
 
-const practices = [
+type PracticeItem = { id: string; title: string; photo: string; anchor: string };
+
+const RAW_PRACTICES: PracticeItem[] = [
   { id: "riegos",   title: "Riegos",                       photo: "/assets/photography/riego-carrete.png",             anchor: "bp-02" },
   { id: "vacuna",   title: "Vacunación y desparasitación", photo: "/assets/photography/vacunacion.PNG",                 anchor: "bp-03" },
   { id: "insem",    title: "Inseminación artificial",      photo: "/assets/illustrations/inseminacion-embriones.png",  anchor: "bp-04" },
   { id: "pastoreo", title: "Pastoreo rotacional",          photo: "/assets/photography/pastoreo-vaquero.png",          anchor: "bp-01" },
 ];
 
-export default function BuenasPracticas() {
+function sanityToPractice(s: SanityBuenaPractica): PracticeItem {
+  return { id: s._id, title: s.title, photo: s.photoUrl, anchor: s.anchor }
+}
+
+export default function BuenasPracticas({ sanityPractices }: { sanityPractices?: SanityBuenaPractica[] }) {
+  const practices: PracticeItem[] =
+    sanityPractices && sanityPractices.length > 0
+      ? sanityPractices.map(sanityToPractice)
+      : RAW_PRACTICES;
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";

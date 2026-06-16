@@ -2,8 +2,13 @@
 
 import { SectionTitle } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { SanitySello } from "@/sanity/queries/sellos";
 
-const sellos = [
+type SelloItem = { name: string; src: string; delay: string; dur: string };
+
+const ANIMATION_PARAMS = ["0s/4.2s", "0.6s/3.8s", "1.1s/4.6s", "0.3s/3.5s", "0.9s/4.0s"];
+
+const RAW_SELLOS: SelloItem[] = [
   { name: "CIA Melhoramento", src: "/assets/certificados/cia-melhoramento.png", delay: "0s",    dur: "4.2s" },
   { name: "100% Precoce",     src: "/assets/certificados/100-precoce.png",      delay: "0.6s",  dur: "3.8s" },
   { name: "100% Genômica",    src: "/assets/certificados/100-genomica.png",     delay: "1.1s",  dur: "4.6s" },
@@ -11,7 +16,16 @@ const sellos = [
   { name: "USDA Organic",     src: "/assets/certificados/usda-organic.png",     delay: "0.9s",  dur: "4.0s" },
 ];
 
-export default function Sellos() {
+function sanityToSello(s: SanitySello, i: number): SelloItem {
+  const [delay, dur] = (ANIMATION_PARAMS[i % ANIMATION_PARAMS.length] ?? "0s/4.0s").split("/")
+  return { name: s.name, src: s.logoUrl, delay: delay ?? "0s", dur: dur ?? "4.0s" }
+}
+
+export default function Sellos({ sanitySellos }: { sanitySellos?: SanitySello[] }) {
+  const sellos: SelloItem[] =
+    sanitySellos && sanitySellos.length > 0
+      ? sanitySellos.map(sanityToSello)
+      : RAW_SELLOS;
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";

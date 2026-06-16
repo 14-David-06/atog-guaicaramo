@@ -1,7 +1,9 @@
 'use client'
 
 import { useState, useEffect } from "react";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { SanityHeroSlide } from "@/sanity/queries/heroSlides";
 
 type HeroSlide = {
   photo: string;
@@ -14,7 +16,15 @@ const accent: React.CSSProperties = {
   color: "var(--g-cafe-200)",
 };
 
-const HERO_SLIDES: HeroSlide[] = [
+const ptComponents: PortableTextComponents = {
+  block: { normal: ({ children, index }) => index === 0 ? <>{children}</> : <><br />{children}</> },
+  marks: {
+    em: ({ children }) => <em style={accent}>{children}</em>,
+    strong: ({ children }) => <strong>{children}</strong>,
+  },
+}
+
+const RAW_SLIDES: HeroSlide[] = [
   {
     photo: "/assets/photography/hero-nelore-grupo.jpg",
     label: "Nelore CIA · ganado para el trópico",
@@ -42,7 +52,19 @@ const HERO_SLIDES: HeroSlide[] = [
   },
 ];
 
-export default function HatoHero() {
+function sanityToSlide(s: SanityHeroSlide): HeroSlide {
+  return {
+    photo: s.photoUrl,
+    label: s.label,
+    copy: <PortableText value={s.copy} components={ptComponents} />,
+  }
+}
+
+export default function HatoHero({ sanitySlides }: { sanitySlides?: SanityHeroSlide[] }) {
+  const HERO_SLIDES: HeroSlide[] =
+    sanitySlides && sanitySlides.length > 0
+      ? sanitySlides.map(sanityToSlide)
+      : RAW_SLIDES;
   const [idx, setIdx] = useState(0);
   const [isLandscape, setIsLandscape] = useState(false);
   const bp = useBreakpoint();

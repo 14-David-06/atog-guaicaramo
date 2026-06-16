@@ -1,17 +1,42 @@
 'use client'
 
 import { useState, useEffect, useRef } from "react";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { HatoBtn } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { HatoIcon } from "./primitivos";
+import type { SanitySeccionDestacada } from "@/sanity/queries/seccionesDestacadas";
 
-const STATS = [
+const RAW_STATS = [
   { val: "18m",  label: "Ciclo de producción",    icon: "trending-down" },
   { val: "+30%", label: "Ganancia de peso diaria", icon: "trending-up"   },
   { val: "CIA",  label: "Programa certificado",    icon: "award"         },
 ];
 
-export default function Genetica() {
+const RAW_PHOTO  = "/assets/photography/nelore-novo.jpg";
+const RAW_TITLE  = "Nelore CIA";
+const RAW_ITALIC = "Ciclo Corto";
+const RAW_HREF   = "/genetica-talla-mundial";
+const RAW_BODY   = (
+  <>Invertimos en <strong style={{ color: "var(--g-verde-800)" }}>genética de talla mundial</strong> que{" "}
+  <strong style={{ color: "var(--g-verde-800)" }}>reduce los ciclos de producción</strong> y acelera los resultados.
+  {" "}Trabajamos bajo el <strong style={{ color: "var(--g-verde-800)" }}>programa CIA</strong>, el estándar más exigente de la ganadería tropical.</>
+);
+
+const ptComponents: PortableTextComponents = {
+  block: { normal: ({ children }) => <>{children}</> },
+  marks: { strong: ({ children }) => <strong style={{ color: "var(--g-verde-800)" }}>{children}</strong> },
+}
+
+export default function Genetica({ sanityData }: { sanityData?: SanitySeccionDestacada }) {
+  const title  = sanityData?.title     ?? RAW_TITLE;
+  const italic = sanityData?.titleItalic ?? RAW_ITALIC;
+  const photo  = sanityData?.photoUrl  ?? RAW_PHOTO;
+  const stats  = sanityData?.stats     ?? RAW_STATS;
+  const ctaHref = sanityData?.ctaHref  ?? RAW_HREF;
+  const body   = sanityData
+    ? <PortableText value={sanityData.body} components={ptComponents} />
+    : RAW_BODY;
   const ref = useRef<HTMLElement>(null);
   const [vis, setVis] = useState(false);
   const bp = useBreakpoint();
@@ -54,7 +79,7 @@ export default function Genetica() {
 
         {/* ── LEFT: Foto ── */}
         <div style={{ position: "relative", minHeight: isSmall ? 220 : "auto", overflow: "hidden" }}>
-          <img src="/assets/photography/nelore-novo.jpg" alt="Nelore CIA" style={{
+          <img src={photo} alt={title} style={{
             position: "absolute", inset: 0, width: "100%", height: "100%",
             objectFit: "cover", objectPosition: "60% 38%",
             opacity: vis ? 1 : 0, transition: "opacity 1.2s var(--g-ease-out)",
@@ -83,8 +108,8 @@ export default function Genetica() {
               lineHeight: 1.0, letterSpacing: "-0.02em",
               color: "var(--g-verde-700)", fontWeight: 400, margin: 0,
             }}>
-              Nelore CIA<br />
-              <em style={{ fontStyle: "italic", color: "var(--g-verde-500)" }}>Ciclo Corto</em>
+              {title}<br />
+              <em style={{ fontStyle: "italic", color: "var(--g-verde-500)" }}>{italic}</em>
             </h2>
           </div>
 
@@ -93,12 +118,12 @@ export default function Genetica() {
 
           {/* Cuerpo */}
           <p style={{ ...en(140), fontFamily: "var(--g-font-sans)", fontSize: "clamp(14px,1.3vw,16px)", lineHeight: 1.7, color: "var(--g-cafe-700)", margin: "0 0 clamp(20px,2.5vw,32px)", textWrap: "pretty", maxWidth: "40ch" }}>
-            Invertimos en <strong style={{ color: "var(--g-verde-800)" }}>genética de talla mundial</strong> que <strong style={{ color: "var(--g-verde-800)" }}>reduce los ciclos de producción</strong> y acelera los resultados. Trabajamos bajo el <strong style={{ color: "var(--g-verde-800)" }}>programa CIA</strong>, el estándar más exigente de la ganadería tropical.
+            {body}
           </p>
 
           {/* Stats */}
           <div style={{ ...en(200), display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 4, paddingTop: "clamp(16px,2vw,24px)", borderTop: "1px solid var(--g-line)", marginBottom: "clamp(20px,2.5vw,32px)" }}>
-            {STATS.map((s) => (
+            {stats.map((s) => (
               <div key={s.val} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <HatoIcon name={s.icon} size={13} color="var(--g-verde-500)" />
@@ -111,7 +136,7 @@ export default function Genetica() {
 
           {/* CTA */}
           <div style={{ ...en(300) }}>
-            <HatoBtn variant="secondary" size="md" href="/genetica-talla-mundial">Ver más &nbsp;→</HatoBtn>
+            <HatoBtn variant="secondary" size="md" href={ctaHref}>Ver más &nbsp;→</HatoBtn>
           </div>
         </div>
 

@@ -1,17 +1,41 @@
 'use client'
 
 import { useState, useEffect, useRef } from "react";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { HatoBtn } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { HatoIcon } from "./primitivos";
+import type { SanitySeccionDestacada } from "@/sanity/queries/seccionesDestacadas";
 
-const STATS = [
+const RAW_STATS = [
   { val: "950+", label: "Búfalas ordeñadas", icon: "droplets"   },
   { val: "4.5k", label: "Litros diarios",    icon: "trending-up" },
   { val: "2×",   label: "Ordeño por día",    icon: "repeat"      },
 ];
 
-export default function Bufalos() {
+const RAW_PHOTO  = "/assets/photography/bufalos-hato-pastura.jpg";
+const RAW_TITLE  = "Nuestros";
+const RAW_ITALIC = "Búfalos";
+const RAW_HREF   = "/nuestros-bufalos";
+const RAW_BODY   = (
+  <>Producimos <strong style={{ color: "var(--g-petroleo-900)" }}>carne y leche</strong> con una lógica clara: genética que funciona, nutrición que sostiene el sistema y manejo que mantiene la{" "}
+  <strong style={{ color: "var(--g-petroleo-900)" }}>producción estable todo el año</strong>.</>
+);
+
+const ptComponents: PortableTextComponents = {
+  block: { normal: ({ children }) => <>{children}</> },
+  marks: { strong: ({ children }) => <strong style={{ color: "var(--g-petroleo-900)" }}>{children}</strong> },
+}
+
+export default function Bufalos({ sanityData }: { sanityData?: SanitySeccionDestacada }) {
+  const title   = sanityData?.title      ?? RAW_TITLE;
+  const italic  = sanityData?.titleItalic ?? RAW_ITALIC;
+  const photo   = sanityData?.photoUrl   ?? RAW_PHOTO;
+  const stats   = sanityData?.stats      ?? RAW_STATS;
+  const ctaHref = sanityData?.ctaHref    ?? RAW_HREF;
+  const body    = sanityData
+    ? <PortableText value={sanityData.body} components={ptComponents} />
+    : RAW_BODY;
   const ref = useRef<HTMLElement>(null);
   const [vis, setVis] = useState(false);
   const bp = useBreakpoint();
@@ -59,7 +83,7 @@ export default function Bufalos() {
           overflow: "hidden",
           order: isSmall ? 1 : 2,
         }}>
-          <img src="/assets/photography/bufalos-hato-pastura.jpg" alt="Búfalos Hato Guaicaramo" style={{
+          <img src={photo} alt={`${title} ${italic}`} style={{
             position: "absolute", inset: 0, width: "100%", height: "100%",
             objectFit: "cover", objectPosition: "50% 60%",
             opacity: vis ? 1 : 0, transition: "opacity 1.2s var(--g-ease-out)",
@@ -86,19 +110,19 @@ export default function Bufalos() {
               lineHeight: 1.0, letterSpacing: "-0.02em",
               color: "var(--g-petroleo-900)", fontWeight: 400, margin: 0,
             }}>
-              Nuestros<br />
-              <em style={{ fontStyle: "italic", color: "var(--g-petroleo-500)" }}>Búfalos</em>
+              {title}<br />
+              <em style={{ fontStyle: "italic", color: "var(--g-petroleo-500)" }}>{italic}</em>
             </h2>
           </div>
 
           <div style={{ ...en(80), width: 40, height: 3, background: "var(--g-petroleo-400)", borderRadius: 2, marginBottom: "clamp(14px,1.8vw,22px)" }} />
 
           <p style={{ ...en(140), fontFamily: "var(--g-font-sans)", fontSize: "clamp(14px,1.3vw,16px)", lineHeight: 1.7, color: "var(--g-cafe-700)", margin: "0 0 clamp(20px,2.5vw,32px)", textWrap: "pretty", maxWidth: "40ch" }}>
-            Producimos <strong style={{ color: "var(--g-petroleo-900)" }}>carne y leche</strong> con una lógica clara: genética que funciona, nutrición que sostiene el sistema y manejo que mantiene la <strong style={{ color: "var(--g-petroleo-900)" }}>producción estable todo el año</strong>.
+            {body}
           </p>
 
           <div style={{ ...en(200), display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 4, paddingTop: "clamp(16px,2vw,24px)", borderTop: "1px solid var(--g-line)", marginBottom: "clamp(20px,2.5vw,32px)" }}>
-            {STATS.map((s) => (
+            {stats.map((s) => (
               <div key={s.val} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <HatoIcon name={s.icon} size={13} color="var(--g-petroleo-400)" />
@@ -110,7 +134,7 @@ export default function Bufalos() {
           </div>
 
           <div style={{ ...en(280) }}>
-            <HatoBtn size="md" href="/nuestros-bufalos">Ver más &nbsp;→</HatoBtn>
+            <HatoBtn size="md" href={ctaHref}>Ver más &nbsp;→</HatoBtn>
           </div>
         </div>
 
