@@ -77,6 +77,26 @@ export const structure: StructureResolver = (S) =>
             .title('Buenas Prácticas — Página')
         ),
 
+      S.listItem()
+        .title('Genética de Talla Mundial — Página')
+        .schemaType('geneticaTallaPage')
+        .child(
+          S.document()
+            .schemaType('geneticaTallaPage')
+            .documentId('genetica-talla-page')
+            .title('Genética de Talla Mundial — Página')
+        ),
+
+      S.listItem()
+        .title('Nuestros Búfalos — Página')
+        .schemaType('nuestrosBufalosPage')
+        .child(
+          S.document()
+            .schemaType('nuestrosBufalosPage')
+            .documentId('nuestros-bufalos-page')
+            .title('Nuestros Búfalos — Página')
+        ),
+
       S.divider(),
 
       // ─── Sitio global ──────────────────────────────────────────────
