@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   },
   // Reemplazar con el código real de Google Search Console al verificar la propiedad
   verification: {
-    google: "",
+    google: "nuy7rw4oGym0GftI-cwhtXjh-wS3IjrdF4Vvrbt4BTU",
   },
 };
 
