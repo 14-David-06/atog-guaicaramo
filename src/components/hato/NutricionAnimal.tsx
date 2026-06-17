@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 import { HatoIcon } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { SanityNutricionAnimalPage } from "@/sanity/queries/nutricionAnimalPage";
 
 /* ---------- Types ---------- */
 type Ingredient = { k: string; d: string; icon: string };
@@ -72,14 +73,14 @@ function Reveal({ children, delay = 0, as = "div", y = 16, dur = 720, style }: R
 /* =====================================================================
    MAIN EXPORT
 ===================================================================== */
-export default function NutricionAnimal() {
+export default function NutricionAnimal({ sanityData }: { sanityData?: SanityNutricionAnimalPage | null }) {
   return (
     <>
-      <NutricionHero />
-      <FabricaIntro />
-      <ManifestoFabrica />
-      <SalProteinada />
-      <PastosBrachiaria />
+      <NutricionHero sanityData={sanityData} />
+      <FabricaIntro sanityData={sanityData} />
+      <ManifestoFabrica sanityData={sanityData} />
+      <SalProteinada sanityData={sanityData} />
+      <PastosBrachiaria sanityData={sanityData} />
     </>
   );
 }
@@ -87,7 +88,11 @@ export default function NutricionAnimal() {
 /* =====================================================================
    1 · HERO — video de fondo (sin cambios — ya es responsive)
 ===================================================================== */
-function NutricionHero() {
+function NutricionHero({ sanityData }: { sanityData?: SanityNutricionAnimalPage | null }) {
+  const heroTitle   = sanityData?.heroTitle   ?? "Alimentación que";
+  const heroTitleEm = sanityData?.heroTitleEm ?? "transforma";
+  const heroSubtitle = sanityData?.heroSubtitle ?? "Soluciones nutricionales de alto rendimiento para el bienestar y productividad de su ganado.";
+
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -179,7 +184,7 @@ function NutricionHero() {
           margin: "0 0 28px",
           textWrap: "balance", maxWidth: "16ch",
         }}>
-          Alimentación que <em style={{ fontStyle: "italic", color: "#C7D4B5" }}>transforma</em> vidas
+          {heroTitle} <em style={{ fontStyle: "italic", color: "#C7D4B5" }}>{heroTitleEm}</em> vidas
         </h1>
 
         <p style={{
@@ -189,7 +194,7 @@ function NutricionHero() {
           color: "rgba(249,246,232,0.88)",
           margin: 0, maxWidth: "54ch", textWrap: "pretty",
         }}>
-          Soluciones nutricionales de alto rendimiento para el bienestar y productividad de su ganado.
+          {heroSubtitle}
         </p>
 
         {/* Scroll hint — cápsula flotante con punto deslizante */}
@@ -226,7 +231,20 @@ function NutricionHero() {
 /* =====================================================================
    2 · NUESTRA FÁBRICA — manifest intro
 ===================================================================== */
-function FabricaIntro() {
+function FabricaIntro({ sanityData }: { sanityData?: SanityNutricionAnimalPage | null }) {
+  const fabricaLabel  = sanityData?.fabricaLabel  ?? "Nuestra fábrica";
+  const fabricaLine1  = sanityData?.fabricaLine1  ?? "En nuestra fábrica";
+  const fabricaLine2  = sanityData?.fabricaLine2  ?? "no solo mezclamos";
+  const fabricaLine3  = sanityData?.fabricaLine3  ?? "alimento.";
+  const fabricaBody   = sanityData?.fabricaBody   ?? "Mezclamos experiencia, precisión y propósito. La planta nace de una necesidad real: mejorar nuestros índices reproductivos, elevar la productividad y aumentar la carga animal con resultados medibles, no promesas.";
+  const fabricaPhoto  = sanityData?.fabricaPhotoUrl ?? "/assets/photography/bufalas-pastoreo.jpg";
+  const fabricaVideo  = sanityData?.fabricaVideoUrl ?? "https://www.instagram.com/reel/DQwnXYSjVN7/?igsh=azl0Z3gzODRsbXJi";
+  const fabricaStats  = sanityData?.fabricaStats ?? [
+    { label: "Reproducción", value: "+ Índices" },
+    { label: "Productividad", value: "Medible" },
+    { label: "Carga animal",  value: "Sostenida" },
+  ];
+
   const bp       = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
@@ -264,7 +282,7 @@ function FabricaIntro() {
                 color: "var(--g-verde-700)", marginBottom: 28, fontSize: "12px",
               }}>
                 <span style={{ display: "inline-block", width: 28, height: 1, background: "var(--g-verde-700)" }} />
-                Nuestra fábrica
+                {fabricaLabel}
               </div>
             </Reveal>
 
@@ -275,9 +293,9 @@ function FabricaIntro() {
               color: "var(--g-petroleo-900)", fontWeight: 400,
               margin: "0 0 36px", textWrap: "balance",
             }}>
-              <Reveal delay={60} as="span" style={{ display: "block" }}>En nuestra fábrica</Reveal>
-              <Reveal delay={160} as="span" style={{ display: "block" }}>no solo mezclamos</Reveal>
-              <Reveal delay={260} as="span" style={{ display: "block", fontStyle: "italic", color: "var(--g-verde-700)" }}>alimento.</Reveal>
+              <Reveal delay={60} as="span" style={{ display: "block" }}>{fabricaLine1}</Reveal>
+              <Reveal delay={160} as="span" style={{ display: "block" }}>{fabricaLine2}</Reveal>
+              <Reveal delay={260} as="span" style={{ display: "block", fontStyle: "italic", color: "var(--g-verde-700)" }}>{fabricaLine3}</Reveal>
             </h2>
 
             <Reveal delay={420}>
@@ -286,12 +304,7 @@ function FabricaIntro() {
                 color: "var(--g-cafe-700)", margin: "0 0 24px",
                 maxWidth: "52ch", textWrap: "pretty",
               }}>
-                Mezclamos experiencia, precisión y propósito. La planta nace de una
-                necesidad real: mejorar nuestros índices reproductivos, elevar la
-                productividad y aumentar la carga animal con{" "}
-                <em style={{ color: "var(--g-petroleo-900)", fontStyle: "italic" }}>
-                  resultados medibles, no promesas
-                </em>.
+                {fabricaBody}
               </p>
             </Reveal>
 
@@ -302,24 +315,20 @@ function FabricaIntro() {
                 gap: isMobile ? 16 : 24,
                 marginTop: 44, paddingTop: 32, borderTop: "1px dashed var(--g-line)",
               }}>
-                {[
-                  { k: "Reproducción", v: "+ Índices" },
-                  { k: "Productividad", v: "Medible" },
-                  { k: "Carga animal", v: "Sostenida" },
-                ].map((s) => (
-                  <div key={s.k}>
+                {fabricaStats.map((s) => (
+                  <div key={s.label}>
                     <div style={{
                       fontFamily: "var(--g-font-sans)", fontSize: 10, fontWeight: 500,
                       letterSpacing: "0.2em", textTransform: "uppercase",
                       color: "var(--g-fg-subtle)", marginBottom: 8,
                     }}>
-                      {s.k}
+                      {s.label}
                     </div>
                     <div style={{
                       fontFamily: "var(--g-font-display)", fontSize: 22,
                       color: "var(--g-petroleo-900)", lineHeight: 1.1,
                     }}>
-                      {s.v}
+                      {s.value}
                     </div>
                   </div>
                 ))}
@@ -328,14 +337,14 @@ function FabricaIntro() {
           </div>
 
           {/* RIGHT */}
-          <FloatingPhoto isMobile={isMobile} />
+          <FloatingPhoto isMobile={isMobile} photoUrl={fabricaPhoto} videoUrl={fabricaVideo} />
         </div>
       </div>
     </section>
   );
 }
 
-function FloatingPhoto({ isMobile = false }: { isMobile?: boolean }) {
+function FloatingPhoto({ isMobile = false, photoUrl, videoUrl }: { isMobile?: boolean; photoUrl: string; videoUrl: string }) {
   const [ref, seen] = useReveal();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
@@ -366,7 +375,7 @@ function FloatingPhoto({ isMobile = false }: { isMobile?: boolean }) {
         boxShadow: "0 30px 80px rgba(8,16,26,0.18)",
       }}>
         <img
-          src="/assets/photography/bufalas-pastoreo.jpg"
+          src={photoUrl}
           alt="Fábrica de nutrición Hato Guaicaramo"
           style={{
             width: "100%", height: "100%", objectFit: "cover",
@@ -383,7 +392,7 @@ function FloatingPhoto({ isMobile = false }: { isMobile?: boolean }) {
       {/* Chips absolutas — ocultas en móvil para evitar overflow del viewport */}
       {!isMobile && (
         <a
-          href="https://www.instagram.com/reel/DQwnXYSjVN7/?igsh=azl0Z3gzODRsbXJi"
+          href={videoUrl}
           target="_blank"
           rel="noopener noreferrer"
           style={{
@@ -453,7 +462,11 @@ function FloatingPhoto({ isMobile = false }: { isMobile?: boolean }) {
 /* =====================================================================
    3 · MANIFESTO — dark band
 ===================================================================== */
-function ManifestoFabrica() {
+function ManifestoFabrica({ sanityData }: { sanityData?: SanityNutricionAnimalPage | null }) {
+  const line1 = sanityData?.manifestoLine1 ?? "Aquí no formulamos productos.";
+  const line2 = sanityData?.manifestoLine2 ?? "Diseñamos resultados.";
+  const body  = sanityData?.manifestoBody  ?? "Mejor reproducción, mayor productividad, más carga animal por hectárea. Una planta integrada al modelo productivo.";
+
   const bp       = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
@@ -462,8 +475,8 @@ function ManifestoFabrica() {
   const hPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
 
   const lines = [
-    { t: "Aquí no formulamos productos.", strike: true },
-    { t: "Diseñamos resultados.",          accent: true },
+    { t: line1, strike: true },
+    { t: line2,  accent: true },
   ];
 
   return (
@@ -549,7 +562,7 @@ function ManifestoFabrica() {
             color: "rgba(249,246,232,0.78)",
             maxWidth: "58ch", margin: "44px auto 0", textWrap: "pretty",
           }}>
-            Mejor reproducción, mayor productividad, más carga animal por hectárea. Una planta integrada al modelo productivo.
+            {body}
           </p>
         </Reveal>
       </div>
@@ -560,7 +573,14 @@ function ManifestoFabrica() {
 /* =====================================================================
    4 · SAL PROTEINADA
 ===================================================================== */
-function SalProteinada() {
+function SalProteinada({ sanityData }: { sanityData?: SanityNutricionAnimalPage | null }) {
+  const salBody1 = sanityData?.salBody1 ?? "La sal proteinada acompaña al animal desde la madre hasta la cría. No es consumo ocasional — es nutrición integrada al modelo productivo.";
+  const salBody2 = sanityData?.salBody2 ?? "Esto no es solo alimento. Es un sistema que impulsa genética, eficiencia y productividad.";
+  const salPdfUrl = sanityData?.salPdfUrl ?? "/assets/pdf/Raciones HG Hato Guaicaramo.pdf";
+  const ingredients: Ingredient[] = sanityData?.salIngredients
+    ? sanityData.salIngredients.map(i => ({ k: i.key, d: i.desc, icon: i.icon }))
+    : SAL_INGREDIENTS;
+
   const [active, setActive] = useState(0);
   const [auto, setAuto]     = useState(true);
 
@@ -574,10 +594,10 @@ function SalProteinada() {
   useEffect(() => {
     if (!auto) return;
     const id = setInterval(() => {
-      setActive((a) => (a + 1) % SAL_INGREDIENTS.length);
+      setActive((a) => (a + 1) % ingredients.length);
     }, 2600);
     return () => clearInterval(id);
-  }, [auto]);
+  }, [auto, ingredients.length]);
 
   return (
     <section style={{
@@ -646,11 +666,7 @@ function SalProteinada() {
                 color: "var(--g-cafe-700)", margin: "0 0 18px",
                 maxWidth: "54ch", textWrap: "pretty",
               }}>
-                La sal proteinada acompaña al animal{" "}
-                <em style={{ color: "var(--g-petroleo-900)", fontStyle: "italic" }}>
-                  desde la madre hasta la cría
-                </em>
-                . No es consumo ocasional — es nutrición integrada al modelo productivo.
+                {salBody1}
               </p>
             </Reveal>
 
@@ -660,10 +676,7 @@ function SalProteinada() {
                 color: "var(--g-cafe-700)", margin: 0,
                 maxWidth: "54ch", textWrap: "pretty",
               }}>
-                Esto no es solo alimento. Es un sistema que impulsa{" "}
-                <strong style={{ color: "var(--g-petroleo-900)", fontWeight: 500 }}>
-                  genética, eficiencia y productividad
-                </strong>.
+                {salBody2}
               </p>
             </Reveal>
 
@@ -678,7 +691,7 @@ function SalProteinada() {
               }}>
                 <div style={{
                   position: "absolute", top: 0, left: 0, height: 3,
-                  width: `${(active + 1) / SAL_INGREDIENTS.length * 100}%`,
+                  width: `${(active + 1) / ingredients.length * 100}%`,
                   background: "var(--g-verde-500)",
                   transition: "width 600ms var(--g-ease-soft)",
                 }} />
@@ -687,7 +700,7 @@ function SalProteinada() {
                   letterSpacing: "0.22em", textTransform: "uppercase",
                   color: "var(--g-verde-700)", marginBottom: 10,
                 }}>
-                  Ingrediente {String(active + 1).padStart(2, "0")} de {SAL_INGREDIENTS.length}
+                  Ingrediente {String(active + 1).padStart(2, "0")} de {ingredients.length}
                 </div>
                 <div key={active} style={{ animation: "g-fadeUp 500ms var(--g-ease-soft) both" }}>
                   <div style={{
@@ -708,7 +721,7 @@ function SalProteinada() {
 
             <Reveal delay={420}>
               <IngredientChips
-                ingredients={SAL_INGREDIENTS}
+                ingredients={ingredients}
                 active={active}
                 onHover={(i) => { setAuto(false); setActive(i); }}
                 onLeave={() => setAuto(true)}
@@ -719,7 +732,8 @@ function SalProteinada() {
           {/* RIGHT — product bag */}
           <SalBagView
             active={active}
-            ingredients={SAL_INGREDIENTS}
+            ingredients={ingredients}
+            pdfUrl={salPdfUrl}
             onHover={(i) => { setAuto(false); setActive(i); }}
             onLeave={() => setAuto(true)}
           />
@@ -765,9 +779,10 @@ function IngredientChips({ ingredients, active, onHover, onLeave }: {
   );
 }
 
-function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHover, onLeave }: {
+function SalBagView({ active: _active, ingredients: _ingredients, pdfUrl, onHover: _onHover, onLeave }: {
   active: number;
   ingredients: Ingredient[];
+  pdfUrl: string;
   onHover: (i: number) => void;
   onLeave: () => void;
 }) {
@@ -824,7 +839,7 @@ function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHo
       </div>
 
       <a
-        href="/assets/pdf/Raciones HG Hato Guaicaramo.pdf"
+        href={pdfUrl}
         download="Raciones HG Hato Guaicaramo.pdf"
         onMouseEnter={() => setBtnHover(true)}
         onMouseLeave={() => setBtnHover(false)}
@@ -870,7 +885,19 @@ function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHo
 /* =====================================================================
    5 · PASTOS BRACHIARIA HUMIDICOLA
 ===================================================================== */
-function PastosBrachiaria() {
+function PastosBrachiaria({ sanityData }: { sanityData?: SanityNutricionAnimalPage | null }) {
+  const pastosBody = sanityData?.pastosBody ?? "Lo cuidamos y rotamos para garantizar forraje fresco y nutritivo, optimizando crecimiento y reproducción. Cada potrero descansa, se recupera y vuelve a producir en el momento preciso.";
+  const pastosRegimes = sanityData?.pastosRegimes ?? [
+    { kind: "Con fertiriego",  grazing: "1 día",    rest: "20 días"    },
+    { kind: "Sin fertiriego",  grazing: "1–2 días", rest: "30–35 días" },
+  ];
+  const pastosStats = sanityData?.pastosStats ?? [
+    { label: "Rotación",     value: "Planificada"    },
+    { label: "Forraje",      value: "Fresco continuo" },
+    { label: "Carga animal", value: "Estable"         },
+    { label: "Recuperación", value: "Medida"          },
+  ];
+
   const SECTORS        = 6;
   const DAYS_PER_SECTOR = 28;
   const TICK_MS        = 220;
@@ -955,6 +982,7 @@ function PastosBrachiaria() {
             day={day} dayInSector={dayInSector}
             daysPerSector={DAYS_PER_SECTOR} totalDays={totalDays}
             isMobile={isMobile}
+            regimes={pastosRegimes}
           />
 
           {/* Copy */}
@@ -977,9 +1005,7 @@ function PastosBrachiaria() {
                 color: "rgba(249,246,232,0.82)", margin: "0 0 18px",
                 maxWidth: "52ch", textWrap: "pretty",
               }}>
-                Lo cuidamos y rotamos para garantizar forraje fresco y nutritivo,
-                optimizando crecimiento y reproducción. Cada potrero descansa, se
-                recupera y vuelve a producir en el momento preciso.
+                {pastosBody}
               </p>
             </Reveal>
 
@@ -993,13 +1019,8 @@ function PastosBrachiaria() {
                 maxWidth: isMobile ? 340 : "100%",
                 marginInline: isMobile ? "auto" : undefined,
               }}>
-                {[
-                  { k: "Rotación",     v: "Planificada" },
-                  { k: "Forraje",      v: "Fresco continuo" },
-                  { k: "Carga animal", v: "Estable" },
-                  { k: "Recuperación", v: "Medida" },
-                ].map((s) => (
-                  <div key={s.k} style={{
+                {pastosStats.map((s) => (
+                  <div key={s.label} style={{
                     padding: "20px 18px",
                     borderRight: "1px solid rgba(249,246,232,0.12)",
                     borderBottom: "1px solid rgba(249,246,232,0.12)",
@@ -1009,11 +1030,11 @@ function PastosBrachiaria() {
                       fontFamily: "var(--g-font-sans)", fontSize: 10,
                       letterSpacing: "0.22em", textTransform: "uppercase",
                       color: "var(--g-verde-300)", marginBottom: 6,
-                    }}>{s.k}</div>
+                    }}>{s.label}</div>
                     <div style={{
                       fontFamily: "var(--g-font-display)", fontSize: 20,
                       lineHeight: 1.1, color: "var(--g-beige)",
-                    }}>{s.v}</div>
+                    }}>{s.value}</div>
                   </div>
                 ))}
               </div>
@@ -1056,9 +1077,12 @@ function PastosBrachiaria() {
 }
 
 /* ---------- PastureRotation SVG ---------- */
-function PastureRotation({ grazing, sectors, day: _day, dayInSector, daysPerSector, totalDays: _totalDays, isMobile }: {
+type RegimeRow = { kind: string; grazing: string; rest: string }
+
+function PastureRotation({ grazing, sectors, day: _day, dayInSector, daysPerSector, totalDays: _totalDays, isMobile, regimes }: {
   grazing: number; sectors: number; day: number; dayInSector: number;
   daysPerSector: number; totalDays: number; isMobile: boolean;
+  regimes: RegimeRow[];
 }) {
   const size   = 520;
   const cx     = size / 2;
@@ -1095,10 +1119,8 @@ function PastureRotation({ grazing, sectors, day: _day, dayInSector, daysPerSect
   };
 
   /* ---- Shared sub-elements ---- */
-  const regimeRows = [
-    { kind: "Con fertiriego",  grazing: "1 día",    rest: "20 días",    tone: "var(--g-verde-500)" },
-    { kind: "Sin fertiriego",  grazing: "1–2 días", rest: "30–35 días", tone: "rgba(183,173,145,0.85)" },
-  ];
+  const tones = ["var(--g-verde-500)", "rgba(183,173,145,0.85)"];
+  const regimeRows = regimes.map((r, i) => ({ ...r, tone: tones[i] ?? tones[tones.length - 1] }));
 
   const regimeCardsEl = (
     <div style={{

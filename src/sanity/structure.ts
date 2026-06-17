@@ -97,6 +97,16 @@ export const structure: StructureResolver = (S) =>
             .title('Nuestros Búfalos — Página')
         ),
 
+      S.listItem()
+        .title('Nutrición Animal — Página')
+        .schemaType('nutricionAnimalPage')
+        .child(
+          S.document()
+            .schemaType('nutricionAnimalPage')
+            .documentId('nutricion-animal-page')
+            .title('Nutrición Animal — Página')
+        ),
+
       S.divider(),
 
       // ─── Sitio global ──────────────────────────────────────────────

@@ -9,7 +9,8 @@ import { quienesSomos } from './quienesSomos'
 import { buenasPracticasPage } from './buenasPracticasPage'
 import { geneticaTallaPage } from './geneticaTallaPage'
 import { nuestrosBufalosPage } from './nuestrosBufalosPage'
+import { nutricionAnimalPage } from './nutricionAnimalPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [testimonial, heroSlide, sello, buenaPractica, seccionDestacada, footer, quienesSomos, buenasPracticasPage, geneticaTallaPage, nuestrosBufalosPage],
+  types: [testimonial, heroSlide, sello, buenaPractica, seccionDestacada, footer, quienesSomos, buenasPracticasPage, geneticaTallaPage, nuestrosBufalosPage, nutricionAnimalPage],
 }
